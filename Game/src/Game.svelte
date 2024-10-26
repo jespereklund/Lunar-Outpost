@@ -125,8 +125,6 @@
 
     function checkKey(e) {
 
-        e = e || window.event;
-
         if (e.keyCode == '38') {
             shipYSpeed -= acc
         }
