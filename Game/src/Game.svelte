@@ -6,7 +6,7 @@
 
     const shipSize = 100
     const drawTime = 20
-    const acc = 0.3
+    const acc = 0.2
     const wallThickness = 20
 
     const wall1 = [250, 300, wallThickness, 300]
@@ -21,7 +21,7 @@
     let shipYSpeed = 0
 
     let ctx
-    
+
 
     onMount(async () => {
         drawTimer = setInterval(draw, drawTime)
