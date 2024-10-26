@@ -21,17 +21,15 @@
     let shipYSpeed = 0
 
     let ctx
-    let timeString
+    let timeString = "0.0 seconds"
     let startTime
-    let timeRunning = true
+    let timeRunning = false
 
     onMount(async () => {
         drawTimer = setInterval(draw, drawTime)
         ctx = canvas.getContext('2d')
         document.onkeydown = checkKey
         ctx.font = "bold 100px Courier"
-        startTime = new Date()
-        
     })
 
     function draw() {
@@ -124,6 +122,10 @@
     }
 
     function checkKey(e) {
+        if(timeRunning === false) {
+            startTime = new Date()
+        }
+        timeRunning = true
 
         if (e.keyCode == '38') {
             shipYSpeed -= acc
