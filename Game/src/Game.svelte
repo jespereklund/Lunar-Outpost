@@ -21,6 +21,7 @@
     let shipYSpeed = 0
 
     let ctx
+    
 
     onMount(async () => {
         drawTimer = setInterval(draw, drawTime)
