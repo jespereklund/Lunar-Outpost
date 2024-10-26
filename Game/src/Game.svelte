@@ -1,5 +1,5 @@
 <script>
-    import { onMount } from "svelte";
+    import { onMount } from "svelte"
     export let width = 800
     export let height = 600
     export let background = '#003300'
@@ -21,13 +21,16 @@
     let shipYSpeed = 0
 
     let ctx
-
+    let timeString
+    let startTime
+    let timeRunning = true
 
     onMount(async () => {
         drawTimer = setInterval(draw, drawTime)
         ctx = canvas.getContext('2d')
-        document.onkeydown = checkKey;
-        ctx.font = "bold 100px Courier";
+        document.onkeydown = checkKey
+        ctx.font = "bold 100px Courier"
+        startTime = new Date()
         
     })
 
@@ -35,41 +38,50 @@
 
         //outer walle
         ctx.clearRect(0, 0, canvas.width, canvas.height)
-        ctx.fillStyle = "#006600";
-        ctx.strokeStyle = "#00ff00";
-        ctx.lineWidth = wallThickness;
-        ctx.strokeRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#006600"
+        ctx.strokeStyle = "#00ff00"
+        ctx.lineWidth = wallThickness
+        ctx.strokeRect(0, 0, canvas.width, canvas.height)
         
         //exit
-        ctx.fillStyle = "#990000";
+        ctx.fillStyle = "#990000"
         ctx.fillRect(wall2[0] + wallThickness - 1, 0, 221, wallThickness / 2)
 
         //inner walls
-        ctx.fillStyle = "#00ff00";
+        ctx.fillStyle = "#00ff00"
         ctx.fillRect(wall1[0], wall1[1], wall1[2], wall1[3])
         ctx.fillRect(wall2[0], wall2[1], wall2[2], wall2[3])
 
         //ship
-        ctx.fillStyle = "#006600";
-        ctx.fillRect(shipX, shipY, shipSize, shipSize);
+        ctx.fillStyle = "#006600"
+        ctx.fillRect(shipX, shipY, shipSize, shipSize)
 
         if (checkCompleted() === true) {
             shipXSpeed = 0
             shipYSpeed = 0
 
-            ctx.fillStyle = "#ff3300";
-            ctx.fillText("You did it!", 100, 320);
+            ctx.fillStyle = "#ff3300"
+            ctx.fillText("You did it!", 100, 320)
+
+            timeRunning = false
+
         } else if (checkCollisions() === true) {
             shipXSpeed = 0
             shipYSpeed = 0
 
-            ctx.fillStyle = "#ff3300";
-            ctx.fillText("Game Over!", 110, 320);
+            ctx.fillStyle = "#ff3300"
+            ctx.fillText("Game Over!", 110, 320)
+
+            timeRunning = false
         }
 
         shipX += shipXSpeed
         shipY += shipYSpeed
 
+        if (timeRunning) {
+            let now = new Date()
+            timeString = ((now - startTime) / 1000).toFixed(1) + " seconds"
+        }
     }
 
     function checkCompleted() {
@@ -138,4 +150,8 @@
         bind:this={canvas} 
     >
     </canvas>
+    <br>
+    <div>
+        <p style="font-size: 40px; margin: 0; padding: 0; color: #00ff00; font-family:'Courier New', Courier, monospace; font-weight:bolder;">{timeString}</p>
+    </div>
 </main>
