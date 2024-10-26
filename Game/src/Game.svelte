@@ -58,7 +58,7 @@
             shipYSpeed = 0
 
             ctx.fillStyle = "#ff3300";
-            ctx.fillText("You did it!", 110, 320);
+            ctx.fillText("You did it!", 100, 320);
         } else if (checkCollisions() === true) {
             shipXSpeed = 0
             shipYSpeed = 0
