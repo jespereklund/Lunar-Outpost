@@ -62,7 +62,8 @@
             drawFlame(flameDirection)
         }
 
-        if (checkCompleted() === true) {
+        //check collision with red exit bar (succes)
+        if (checkCompleted()) {
             shipXSpeed = 0
             shipYSpeed = 0
 
@@ -71,7 +72,8 @@
 
             timeRunning = false
 
-        } else if (checkCollisions() === true) {
+        //check collision with any wall (failed)
+        } else if (checkCollisions()) {
             shipXSpeed = 0
             shipYSpeed = 0
 
@@ -136,25 +138,25 @@
         }
         
         //up
-        if (e.keyCode == '38') {
+        if (e.keyCode == '38' || e.keyCode == '87') {
             startFlame("up")
             shipYSpeed -= acc
         }
 
         //down
-        else if (e.keyCode == '40') {
+        else if (e.keyCode == '40' || e.keyCode == '83') {
             startFlame("down")
             shipYSpeed += acc
         }
 
         //left
-        else if (e.keyCode == '37') {
+        else if (e.keyCode == '37' || e.keyCode == '65') {
             startFlame("left")
             shipXSpeed -= acc
         }
 
         //right
-        else if (e.keyCode == '39') {
+        else if (e.keyCode == '39' || e.keyCode == '68') {
             startFlame("right")
             shipXSpeed += acc
         }
