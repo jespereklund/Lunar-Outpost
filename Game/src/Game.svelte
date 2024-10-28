@@ -189,26 +189,26 @@
         return collide
     }
 
-    //put pressed key in array and start game at first keypressed event
+    //put pressed key in trust object and start game at first keypressed event
     function keyDownHandler(e) {
         const key = e.keyCode
         if (gameRunning) {
-            //left
+            //left (left arrow and a)
             if(key === 37 || key === 65) {
                 trust.left = 1
             }
 
-            //right
+            //right (right arrow and d)
             if(key === 39 || key === 68) {
                 trust.right = 1
             }
 
-            //up
+            //up (up arrow and w)
             if(key === 38 || key === 87) {
                 trust.up = 1
             }
 
-            //down
+            //down (down arrow and s)
             if(key === 40 || key === 83) {
                 trust.down = 1
             }
@@ -217,25 +217,25 @@
         }
     }
 
-    //remove released key from key pressed array
+    //remove released key from trust object
     function keyUpHandler(e) {
         const key = e.keyCode
-        //left
+        //left (left arrow and a)
         if(key === 37 || key === 65) {
             trust.left = 0
         }
 
-        //right
+        //right (right arrow and d)
         if(key === 39 || key === 68) {
             trust.right = 0
         }
 
-        //up
+        //up (up arrow and w)
         if(key === 38 || key === 87) {
             trust.up = 0
         }
 
-        //down
+        //down (down arrow and s)
         if(key === 40 || key === 83) {
             trust.down = 0
         }
@@ -243,23 +243,18 @@
 
     //change the ships speed according to keys pressed (arrow keys and WASD)
     function moveShip() {
-
-        //up (up arrow and w)
         if (trust.up === 1) {
             shipYSpeed -= acc
         }
 
-        //down (down arrow and s)
         if (trust.down === 1) {
             shipYSpeed += acc
         }
 
-        //left (left arrow and a)
         if (trust.left === 1) {
             shipXSpeed -= acc
         }
 
-        //right (right arrow and d)
         if (trust.right === 1) {
             shipXSpeed += acc
         }
