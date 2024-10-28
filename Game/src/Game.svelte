@@ -113,41 +113,6 @@
         } 
     }
 
-    function drawFlames() {
-        ctx.beginPath();
-        ctx.fillStyle = "#ff6600"
-
-        //buttom
-        if (trust.up === 1) {
-            ctx.moveTo(shipX + shipSize / 2 - 10, shipY + shipSize);
-            ctx.lineTo(shipX + shipSize / 2, shipY + shipSize + Math.random() * 20 + 10);
-            ctx.lineTo(shipX + shipSize / 2 + 10, shipY + shipSize);
-        }
-
-        //top
-        if (trust.down === 1) {
-            ctx.moveTo(shipX + shipSize / 2 - 10, shipY);
-            ctx.lineTo(shipX + shipSize / 2, shipY - Math.random() * 20 - 10);
-            ctx.lineTo(shipX + shipSize / 2 + 10, shipY);
-        }
-
-        //right side
-        if (trust.left === 1) {
-            ctx.moveTo(shipX + shipSize, shipY + shipSize / 2 - 10);
-            ctx.lineTo(shipX + shipSize + Math.random() * 20 + 10, shipY + shipSize / 2 );
-            ctx.lineTo(shipX + shipSize, shipY + shipSize / 2 + 10);
-        }
-
-        //left side
-        if (trust.right === 1) {
-            ctx.moveTo(shipX, shipY + shipSize / 2 - 10);
-            ctx.lineTo(shipX - Math.random() * 20 - 10, shipY + shipSize / 2 );
-            ctx.lineTo(shipX, shipY + shipSize / 2 + 10);
-        }        
-
-        ctx.fill();
-    }
-
     //test if ship has reached the red exit bar
     function checkCompleted() {
         let completed = false
@@ -189,7 +154,7 @@
         return collide
     }
 
-    //put pressed key in trust object and start game at first keypressed event
+    //set pressed key in trust object to 1 and start game at first keypressed event
     function keyDownHandler(e) {
         const key = e.keyCode
         if (gameRunning) {
@@ -217,7 +182,7 @@
         }
     }
 
-    //remove released key from trust object
+    //set released key in trust object to 0
     function keyUpHandler(e) {
         const key = e.keyCode
         //left (left arrow and a)
@@ -241,10 +206,45 @@
         }
     }
 
-    //change the ships speed according to keys pressed (arrow keys and WASD)
+    //change the ships speed according to trust object
     function moveShip() {
         shipYSpeed += acc * (trust.down - trust.up)
         shipXSpeed += acc * (trust.right - trust.left)
+    }
+
+    function drawFlames() {
+        ctx.beginPath();
+        ctx.fillStyle = "#ff6600"
+
+        //buttom
+        if (trust.up === 1) {
+            ctx.moveTo(shipX + shipSize / 2 - 10, shipY + shipSize);
+            ctx.lineTo(shipX + shipSize / 2, shipY + shipSize + Math.random() * 20 + 10);
+            ctx.lineTo(shipX + shipSize / 2 + 10, shipY + shipSize);
+        }
+
+        //top
+        if (trust.down === 1) {
+            ctx.moveTo(shipX + shipSize / 2 - 10, shipY);
+            ctx.lineTo(shipX + shipSize / 2, shipY - Math.random() * 20 - 10);
+            ctx.lineTo(shipX + shipSize / 2 + 10, shipY);
+        }
+
+        //right side
+        if (trust.left === 1) {
+            ctx.moveTo(shipX + shipSize, shipY + shipSize / 2 - 10);
+            ctx.lineTo(shipX + shipSize + Math.random() * 20 + 10, shipY + shipSize / 2 );
+            ctx.lineTo(shipX + shipSize, shipY + shipSize / 2 + 10);
+        }
+
+        //left side
+        if (trust.right === 1) {
+            ctx.moveTo(shipX, shipY + shipSize / 2 - 10);
+            ctx.lineTo(shipX - Math.random() * 20 - 10, shipY + shipSize / 2 );
+            ctx.lineTo(shipX, shipY + shipSize / 2 + 10);
+        }        
+
+        ctx.fill();
     }
 </script>
 <main>
