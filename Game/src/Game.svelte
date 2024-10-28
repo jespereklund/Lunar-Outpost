@@ -143,7 +143,7 @@
         return completed
     }
 
-    //test if ship has colliden with any of the walls
+    //test if ship has collided with any of the walls
     function checkCollisions() {
         let collide = false
 
@@ -182,7 +182,7 @@
         }
     }
 
-    //remove pressed key from array
+    //remove released key from key pressed array
     function keyUpHandler(e) {
         keysPressed.splice(keysPressed.indexOf(e.keyCode))
     }
