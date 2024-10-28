@@ -93,7 +93,7 @@
         ctx.beginPath();
         ctx.fillStyle = "#ff6600"
 
-        //button
+        //buttom
         if (keysPressed.includes(38) || keysPressed.includes(87)) {
             ctx.moveTo(shipX + shipSize / 2 - 10, shipY + shipSize);
             ctx.lineTo(shipX + shipSize / 2, shipY + shipSize + Math.random() * 20 + 10);
