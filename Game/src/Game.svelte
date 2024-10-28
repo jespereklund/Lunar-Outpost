@@ -24,10 +24,10 @@
     }
 
     const keys = {
-        left: [37, 65],
-        right: [39, 68],
-        up: [38, 87],
-        down: [40, 83]
+        left: [37, 65], //arrow left and a
+        right: [39, 68], //arrow right and d
+        up: [38, 87], //arrow up and w
+        down: [40, 83] //arrpow down and s
     }
 
     let drawTimer
