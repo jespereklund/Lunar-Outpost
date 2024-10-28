@@ -57,8 +57,10 @@
 
     //called when first key is pressed
     function startGame() {
-        startTime = new Date()
-        gameRunning = true
+        if(!gameRunning) {
+            startTime = new Date()
+            gameRunning = true
+        }
     }
 
     //draw all element on screen
@@ -163,25 +165,22 @@
 
     //set pressed key in trust object to 1 and start game at first keypressed event
     function keyDownHandler(e) {
+        startGame()
         const key = e.keyCode
-        if (gameRunning) {
-            if(keys.left.includes(key)) {
-                trust.left = 1
-            }
+        if(keys.left.includes(key)) {
+            trust.left = 1
+        }
 
-            if(keys.right.includes(key)) {
-                trust.right = 1
-            }
+        if(keys.right.includes(key)) {
+            trust.right = 1
+        }
 
-            if(keys.up.includes(key)) {
-                trust.up = 1
-            }
+        if(keys.up.includes(key)) {
+            trust.up = 1
+        }
 
-            if(keys.down.includes(key)) {
-                trust.down = 1
-            }
-        } else {
-            startGame()
+        if(keys.down.includes(key)) {
+            trust.down = 1
         }
     }
 
