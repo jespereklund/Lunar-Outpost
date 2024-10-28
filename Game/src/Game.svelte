@@ -32,6 +32,7 @@
         ctx.font = "bold 100px Courier"
     })
 
+    //called when first key is pressed
     function startGame() {
         startTime = new Date()
         gameRunning = true
