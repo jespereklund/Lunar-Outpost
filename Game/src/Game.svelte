@@ -9,8 +9,19 @@
     const acc = 0.05
     const wallThickness = 20
 
-    const wall1 = [250, 300, wallThickness, 300]
-    const wall2 = [550, 0, wallThickness, 300]
+    const wall1 = {
+        x: 250, 
+        y: 300, 
+        w: wallThickness, 
+        h: 300
+    }
+
+    const wall2 = {
+        x: 550, 
+        y: 0, 
+        w: wallThickness, 
+        h: 300
+    }
 
     let drawTimer
     let canvas
@@ -54,8 +65,8 @@
 
         //inner walls
         ctx.fillStyle = "#00ff00"
-        ctx.fillRect(wall1[0], wall1[1], wall1[2], wall1[3])
-        ctx.fillRect(wall2[0], wall2[1], wall2[2], wall2[3])
+        ctx.fillRect(wall1.x, wall1.y, wall1.w, wall1.h)
+        ctx.fillRect(wall2.x, wall2.y, wall2.w, wall2.h)
 
         //ship
         ctx.fillStyle = "#006699"
@@ -157,15 +168,15 @@
             || 
             
             //Wall 1
-            ( shipX + shipSize > wall1[0] 
-            && shipX < wall1[0] + wallThickness 
-            && shipY + shipSize > wall1[1]) 
+            ( shipX + shipSize > wall1.x 
+            && shipX < wall1.x + wallThickness 
+            && shipY + shipSize > wall1.y) 
             || 
                 
             //Wall 2
-            ( shipX + shipSize > wall2[0] 
-            && shipX < wall2[0] + wallThickness 
-            && shipY < wall2[1] + wall2[3])) 
+            ( shipX + shipSize > wall2.x
+            && shipX < wall2.x + wallThickness 
+            && shipY < wall2.y + wall2.h)) 
         {
             collide = true
         }
