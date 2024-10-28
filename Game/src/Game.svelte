@@ -61,7 +61,7 @@
         
         //exit
         ctx.fillStyle = "#990000"
-        ctx.fillRect(wall2[0] + wallThickness - 1, 0, 221, wallThickness / 2)
+        ctx.fillRect(wall2.x + wallThickness - 1, 0, 221, wallThickness / 2)
 
         //inner walls
         ctx.fillStyle = "#00ff00"
@@ -146,7 +146,7 @@
     function checkCompleted() {
         let completed = false
         if (
-            shipX > wall2[0] + wallThickness / 2 && 
+            shipX > wall2.x + wallThickness / 2 && 
             shipX + shipSize + wallThickness / 2 < canvas.width && 
             shipY < wallThickness / 2
         ) {
@@ -196,7 +196,9 @@
 
     //remove released key from key pressed array
     function keyUpHandler(e) {
-        keysPressed.splice(keysPressed.indexOf(e.keyCode))
+        if (keysPressed.indexOf(e.keyCode) != -1 ) {
+            keysPressed.splice(keysPressed.indexOf(e.keyCode), 1)
+        }
     }
 
     //change the ships speed according to keys pressed (arrow keys and WASD)
