@@ -23,6 +23,13 @@
         h: 300
     }
 
+    const keys = {
+        left: [37, 65],
+        right: [39, 68],
+        up: [38, 87],
+        down: [40, 83]
+    }
+
     let drawTimer
     let canvas
     let shipX = 80
@@ -159,22 +166,22 @@
         const key = e.keyCode
         if (gameRunning) {
             //left (left arrow and a)
-            if(key === 37 || key === 65) {
+            if(keys.left.includes(key)) {
                 trust.left = 1
             }
 
             //right (right arrow and d)
-            if(key === 39 || key === 68) {
+            if(keys.right.includes(key)) {
                 trust.right = 1
             }
 
             //up (up arrow and w)
-            if(key === 38 || key === 87) {
+            if(keys.up.includes(key)) {
                 trust.up = 1
             }
 
             //down (down arrow and s)
-            if(key === 40 || key === 83) {
+            if(keys.down.includes(key)) {
                 trust.down = 1
             }
         } else {
@@ -186,22 +193,22 @@
     function keyUpHandler(e) {
         const key = e.keyCode
         //left (left arrow and a)
-        if(key === 37 || key === 65) {
+        if(keys.left.includes(key)) {
             trust.left = 0
         }
 
         //right (right arrow and d)
-        if(key === 39 || key === 68) {
+        if(keys.right.includes(key)) {
             trust.right = 0
         }
 
         //up (up arrow and w)
-        if(key === 38 || key === 87) {
+        if(keys.up.includes(key)) {
             trust.up = 0
         }
 
         //down (down arrow and s)
-        if(key === 40 || key === 83) {
+        if(keys.down.includes(key)) {
             trust.down = 0
         }
     }
