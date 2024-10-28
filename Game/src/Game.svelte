@@ -22,7 +22,6 @@
     let timeString = "0.0 seconds"
     let startTime
     let timeRunning = false
-    let flameOn = false
     let keysPressed = []
 
     onMount(async () => {
@@ -34,10 +33,8 @@
     })
 
     function startGame() {
-        if(timeRunning === false) {
-            startTime = new Date()
-            timeRunning = true
-        }        
+        startTime = new Date()
+        timeRunning = true
     }
 
     //draw all element on screen
@@ -60,9 +57,11 @@
         ctx.fillRect(wall2[0], wall2[1], wall2[2], wall2[3])
 
         //ship
-        ctx.fillStyle = "#006600"
+        ctx.fillStyle = "#006699"
         ctx.fillRect(shipX, shipY, shipSize, shipSize)
-      
+        ctx.fillStyle = "#000066"
+        ctx.fillRect(shipX + 5, shipY + 5, shipSize - 10, shipSize - 10)
+
         //flames
         drawFlames()
 
@@ -174,44 +173,44 @@
         return collide
     }
 
-    //put pressed keys in array
+    //put pressed key in array and start game at first keypressed event
     function keyDownHandler(e) {
-
         if (keysPressed.indexOf(e.keyCode) === -1 ) {
             keysPressed.push(e.keyCode)
         }
-        startGame()
+        
+        if(timeRunning === false) {
+            startGame()
+        }
     }
 
-    //remove pressed keys from array
+    //remove pressed key from array
     function keyUpHandler(e) {
         keysPressed.splice(keysPressed.indexOf(e.keyCode))
-        flameOn = false
     }
 
-    //change the ships speed according to keys pressed
+    //change the ships speed according to keys pressed (arrow keys and WASD)
     function moveShip() {
-        //up
+        //up (up arrow and w)
         if (keysPressed.includes(38) || keysPressed.includes(87)) {
             shipYSpeed -= acc
         }
 
-        //down
+        //down (down arrow and s)
         if (keysPressed.includes(40) || keysPressed.includes(83)) {
             shipYSpeed += acc
         }
 
-        //left
+        //left (left arrow and a)
         if (keysPressed.includes(37) || keysPressed.includes(65)) {
             shipXSpeed -= acc
         }
 
-        //right
+        //right (right arrow and d)
         if (keysPressed.includes(39) || keysPressed.includes(68)) {
             shipXSpeed += acc
         }        
     }
-
 </script>
 <main>
     <canvas
