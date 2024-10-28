@@ -6,7 +6,7 @@
 
     const shipSize = 100
     const drawTime = 20
-    const acc = 0.2
+    const acc = 0.05
     const wallThickness = 20
 
     const wall1 = [250, 300, wallThickness, 300]
@@ -53,6 +53,7 @@
         ctx.fillRect(wall2[0], wall2[1], wall2[2], wall2[3])
 
         //ship
+        moveShip()
         ctx.fillStyle = "#006600"
         ctx.fillRect(shipX, shipY, shipSize, shipSize)
       
@@ -173,7 +174,9 @@
             startTime = new Date()
             timeRunning = true
         }
+    }
 
+    function moveShip() {
         //up
         if (keysPressed.includes(38) || keysPressed.includes(87)) {
             shipYSpeed -= acc
@@ -192,7 +195,7 @@
         //right
         if (keysPressed.includes(39) || keysPressed.includes(68)) {
             shipXSpeed += acc
-        }
+        }        
     }
 
     function keyUpHandler(e) {
