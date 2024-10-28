@@ -22,7 +22,6 @@
     let timeString = "0.0 seconds"
     let startTime
     let timeRunning = false
-    let flameDirection
     let flameOn = false
     let keysPressed = []
 
@@ -34,6 +33,14 @@
         ctx.font = "bold 100px Courier"
     })
 
+    function startGame() {
+        if(timeRunning === false) {
+            startTime = new Date()
+            timeRunning = true
+        }        
+    }
+
+    //draw all element on screen
     function draw() {
 
         //outer walls
@@ -53,7 +60,6 @@
         ctx.fillRect(wall2[0], wall2[1], wall2[2], wall2[3])
 
         //ship
-        moveShip()
         ctx.fillStyle = "#006600"
         ctx.fillRect(shipX, shipY, shipSize, shipSize)
       
@@ -81,9 +87,12 @@
             timeRunning = false
         }
 
+        //move ship
         shipX += shipXSpeed
         shipY += shipYSpeed
+        moveShip()
 
+        //calcutalte time spend
         if (timeRunning) {
             let now = new Date()
             timeString = ((now - startTime) / 1000).toFixed(1) + " seconds"
@@ -124,6 +133,7 @@
         ctx.fill();
     }
 
+    //test if ship has reached the red exit bar
     function checkCompleted() {
         let completed = false
         if (
@@ -136,6 +146,7 @@
         return completed
     }
 
+    //test if ship has colliden with any of the walls
     function checkCollisions() {
         let collide = false
 
@@ -163,19 +174,22 @@
         return collide
     }
 
-    //Test for arrow keys and WASD keys
+    //put pressed keys in array
     function keyDownHandler(e) {
 
         if (keysPressed.indexOf(e.keyCode) === -1 ) {
             keysPressed.push(e.keyCode)
         }
-
-        if(timeRunning === false) {
-            startTime = new Date()
-            timeRunning = true
-        }
+        startGame()
     }
 
+    //remove pressed keys from array
+    function keyUpHandler(e) {
+        keysPressed.splice(keysPressed.indexOf(e.keyCode))
+        flameOn = false
+    }
+
+    //change the ships speed according to keys pressed
     function moveShip() {
         //up
         if (keysPressed.includes(38) || keysPressed.includes(87)) {
@@ -198,10 +212,6 @@
         }        
     }
 
-    function keyUpHandler(e) {
-        keysPressed.splice(keysPressed.indexOf(e.keyCode))
-        flameOn = false
-    }
 </script>
 <main>
     <canvas
@@ -213,6 +223,13 @@
     </canvas>
     <br>
     <div>
-        <p style="font-size: 40px; margin: 0; padding: 0; color: #00ff00; font-family:'Courier New', Courier, monospace; font-weight:bolder;">{timeString}</p>
+        <p style="
+            font-size: 40px; 
+            margin: 0; 
+            padding: 0; 
+            color: #00ff00; 
+            font-family:'Courier New', Courier, monospace; 
+            font-weight:bolder;"
+        >{timeString}</p>
     </div>
 </main>
