@@ -243,21 +243,8 @@
 
     //change the ships speed according to keys pressed (arrow keys and WASD)
     function moveShip() {
-        if (trust.up === 1) {
-            shipYSpeed -= acc
-        }
-
-        if (trust.down === 1) {
-            shipYSpeed += acc
-        }
-
-        if (trust.left === 1) {
-            shipXSpeed -= acc
-        }
-
-        if (trust.right === 1) {
-            shipXSpeed += acc
-        }
+        shipYSpeed += acc * (trust.down - trust.up)
+        shipXSpeed += acc * (trust.right - trust.left)
     }
 </script>
 <main>
