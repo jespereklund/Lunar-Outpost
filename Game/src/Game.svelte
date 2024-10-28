@@ -165,22 +165,18 @@
     function keyDownHandler(e) {
         const key = e.keyCode
         if (gameRunning) {
-            //left (left arrow and a)
             if(keys.left.includes(key)) {
                 trust.left = 1
             }
 
-            //right (right arrow and d)
             if(keys.right.includes(key)) {
                 trust.right = 1
             }
 
-            //up (up arrow and w)
             if(keys.up.includes(key)) {
                 trust.up = 1
             }
 
-            //down (down arrow and s)
             if(keys.down.includes(key)) {
                 trust.down = 1
             }
@@ -192,22 +188,19 @@
     //set released key in trust object to 0
     function keyUpHandler(e) {
         const key = e.keyCode
-        //left (left arrow and a)
+
         if(keys.left.includes(key)) {
             trust.left = 0
         }
 
-        //right (right arrow and d)
         if(keys.right.includes(key)) {
             trust.right = 0
         }
 
-        //up (up arrow and w)
         if(keys.up.includes(key)) {
             trust.up = 0
         }
 
-        //down (down arrow and s)
         if(keys.down.includes(key)) {
             trust.down = 0
         }
