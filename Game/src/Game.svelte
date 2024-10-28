@@ -33,7 +33,12 @@
     let timeString = "0.0 seconds"
     let startTime
     let gameRunning = false
-    let keysPressed = []
+    let trust = {
+        left: 0,
+        right: 0,
+        up: 0, 
+        down: 0
+    }
 
     onMount(async () => {
         drawTimer = setInterval(draw, drawTime)
@@ -113,32 +118,33 @@
         ctx.fillStyle = "#ff6600"
 
         //buttom
-        if (keysPressed.includes(38) || keysPressed.includes(87)) {
+        if (trust.up === 1) {
             ctx.moveTo(shipX + shipSize / 2 - 10, shipY + shipSize);
             ctx.lineTo(shipX + shipSize / 2, shipY + shipSize + Math.random() * 20 + 10);
             ctx.lineTo(shipX + shipSize / 2 + 10, shipY + shipSize);
         }
 
         //top
-        if (keysPressed.includes(40) || keysPressed.includes(83)) {
+        if (trust.down === 1) {
             ctx.moveTo(shipX + shipSize / 2 - 10, shipY);
             ctx.lineTo(shipX + shipSize / 2, shipY - Math.random() * 20 - 10);
             ctx.lineTo(shipX + shipSize / 2 + 10, shipY);
         }
 
         //right side
-        if (keysPressed.includes(37) || keysPressed.includes(65)) {
+        if (trust.left === 1) {
             ctx.moveTo(shipX + shipSize, shipY + shipSize / 2 - 10);
             ctx.lineTo(shipX + shipSize + Math.random() * 20 + 10, shipY + shipSize / 2 );
             ctx.lineTo(shipX + shipSize, shipY + shipSize / 2 + 10);
         }
 
         //left side
-        if (keysPressed.includes(39) || keysPressed.includes(68)) {
+        if (trust.right === 1) {
             ctx.moveTo(shipX, shipY + shipSize / 2 - 10);
             ctx.lineTo(shipX - Math.random() * 20 - 10, shipY + shipSize / 2 );
             ctx.lineTo(shipX, shipY + shipSize / 2 + 10);
         }        
+
         ctx.fill();
     }
 
@@ -185,9 +191,26 @@
 
     //put pressed key in array and start game at first keypressed event
     function keyDownHandler(e) {
+        const key = e.keyCode
         if (gameRunning) {
-            if (keysPressed.indexOf(e.keyCode) === -1 ) {
-                keysPressed.push(e.keyCode)
+            //left
+            if(key === 37 || key === 65) {
+                trust.left = 1
+            }
+
+            //right
+            if(key === 39 || key === 68) {
+                trust.right = 1
+            }
+
+            //up
+            if(key === 38 || key === 87) {
+                trust.up = 1
+            }
+
+            //down
+            if(key === 40 || key === 83) {
+                trust.down = 1
             }
         } else {
             startGame()
@@ -196,32 +219,50 @@
 
     //remove released key from key pressed array
     function keyUpHandler(e) {
-        if (keysPressed.indexOf(e.keyCode) != -1 ) {
-            keysPressed.splice(keysPressed.indexOf(e.keyCode), 1)
+        const key = e.keyCode
+        //left
+        if(key === 37 || key === 65) {
+            trust.left = 0
+        }
+
+        //right
+        if(key === 39 || key === 68) {
+            trust.right = 0
+        }
+
+        //up
+        if(key === 38 || key === 87) {
+            trust.up = 0
+        }
+
+        //down
+        if(key === 40 || key === 83) {
+            trust.down = 0
         }
     }
 
     //change the ships speed according to keys pressed (arrow keys and WASD)
     function moveShip() {
+
         //up (up arrow and w)
-        if (keysPressed.includes(38) || keysPressed.includes(87)) {
+        if (trust.up === 1) {
             shipYSpeed -= acc
         }
 
         //down (down arrow and s)
-        if (keysPressed.includes(40) || keysPressed.includes(83)) {
+        if (trust.down === 1) {
             shipYSpeed += acc
         }
 
         //left (left arrow and a)
-        if (keysPressed.includes(37) || keysPressed.includes(65)) {
+        if (trust.left === 1) {
             shipXSpeed -= acc
         }
 
         //right (right arrow and d)
-        if (keysPressed.includes(39) || keysPressed.includes(68)) {
+        if (trust.right === 1) {
             shipXSpeed += acc
-        }        
+        }
     }
 </script>
 <main>
