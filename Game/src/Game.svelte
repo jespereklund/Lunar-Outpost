@@ -21,7 +21,7 @@
     let ctx
     let timeString = "0.0 seconds"
     let startTime
-    let timeRunning = false
+    let gameRunning = false
     let keysPressed = []
 
     onMount(async () => {
@@ -34,7 +34,7 @@
 
     function startGame() {
         startTime = new Date()
-        timeRunning = true
+        gameRunning = true
     }
 
     //draw all element on screen
@@ -62,9 +62,6 @@
         ctx.fillStyle = "#000066"
         ctx.fillRect(shipX + 5, shipY + 5, shipSize - 10, shipSize - 10)
 
-        //flames
-        drawFlames()
-
         //check collision with red exit bar (succes)
         if (checkCompleted()) {
             shipXSpeed = 0
@@ -73,7 +70,7 @@
             ctx.fillStyle = "#ff3300"
             ctx.fillText("You did it!", 100, 320)
 
-            timeRunning = false
+            gameRunning = false
 
         //check collision with any wall (failed)
         } else if (checkCollisions()) {
@@ -83,7 +80,7 @@
             ctx.fillStyle = "#ff3300"
             ctx.fillText("Game Over!", 110, 320)
 
-            timeRunning = false
+            gameRunning = false
         }
 
         //move ship
@@ -91,11 +88,12 @@
         shipY += shipYSpeed
         moveShip()
 
-        //calcutalte time spend
-        if (timeRunning) {
+        //if game is running, draw flames and calcutalte time spend 
+        if (gameRunning) {
+            drawFlames()
             let now = new Date()
             timeString = ((now - startTime) / 1000).toFixed(1) + " seconds"
-        }
+        } 
     }
 
     function drawFlames() {
@@ -175,11 +173,11 @@
 
     //put pressed key in array and start game at first keypressed event
     function keyDownHandler(e) {
-        if (keysPressed.indexOf(e.keyCode) === -1 ) {
-            keysPressed.push(e.keyCode)
-        }
-        
-        if(timeRunning === false) {
+        if (gameRunning) {
+            if (keysPressed.indexOf(e.keyCode) === -1 ) {
+                keysPressed.push(e.keyCode)
+            }
+        } else {
             startGame()
         }
     }
