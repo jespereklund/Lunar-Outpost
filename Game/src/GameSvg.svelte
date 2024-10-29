@@ -80,9 +80,10 @@
         }
 
         //move ship
+        shipYSpeed += acc * (trust.down - trust.up)
+        shipXSpeed += acc * (trust.right - trust.left)
         shipX += shipXSpeed
         shipY += shipYSpeed
-        moveShip()
 
         //if game is running, draw flames and calcutalte time spend 
         if (gameState === "running") {
@@ -172,12 +173,6 @@
         if(keys.down.includes(key)) {
             trust.down = 0
         }
-    }
-
-    //change the ships speed according to trust object
-    function moveShip() {
-        shipYSpeed += acc * (trust.down - trust.up)
-        shipXSpeed += acc * (trust.right - trust.left)
     }
 </script>
 <main>
