@@ -1,5 +1,6 @@
 <script>
   import Game from "./Game.svelte";
+  import GameSvg from "./GameSvg.svelte";
   let gameState = "start"
 </script>
 <main>
@@ -10,7 +11,8 @@
 			<p class="text"><button on:click={(e) => gameState = "game"}>Start Game</button></p>
 		</div>
 	{:else if gameState === "game" }
-		<Game></Game>
+		<!-- Game></Game -->
+		<GameSvg></GameSvg>
 	{/if}
 </main>
 
