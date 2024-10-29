@@ -211,23 +211,23 @@
             visibility={(trust.up === 1 && gameState === "running") ? "visible" : "hidden"} />
 
         <!-- top flame -->
-         <polygon points="
+        <polygon points="
             {shipX + shipSize / 2 - 10},{shipY + 2}
             {shipX + shipSize / 2},{shipY - Math.random() * 20 - 10}
             {shipX + shipSize / 2 + 10},{shipY + 2}" 
             class="flame" 
             visibility={(trust.down === 1 && gameState === "running") ? "visible" : "hidden"} />
 
-         <!-- right side flame -->
-          <polygon points="
+        <!-- right side flame -->
+        <polygon points="
             {shipX + shipSize - 2},{shipY + shipSize / 2 - 10}
             {shipX + shipSize + Math.random() * 20 + 10},{shipY + shipSize / 2}
             {shipX + shipSize - 2},{shipY + shipSize / 2 + 10}" 
             class="flame" 
             visibility={(trust.left === 1 && gameState === "running") ? "visible" : "hidden"} />
 
-         <!-- left side flame -->
-         <polygon points="
+        <!-- left side flame -->
+        <polygon points="
             {shipX + 2},{shipY + shipSize / 2 - 10}
             {shipX - Math.random() * 20 - 10},{shipY + shipSize / 2}
             {shipX + 2},{shipY + shipSize / 2 + 10}" 
