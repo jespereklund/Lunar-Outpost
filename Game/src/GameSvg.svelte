@@ -13,8 +13,8 @@
         {x: 0, y: 0, w: wallThickness, h: canvasHeight},
         {x: canvasWidth - wallThickness, y: 0, w: wallThickness, h: canvasHeight},
         {x: 0, y: canvasHeight - wallThickness, w: canvasWidth, h: wallThickness},
-        {x: 250, y: 300, w: wallThickness, h: 300},
-        {x: 550, y: 0, w: wallThickness, h: 300}
+        {x: 250, y: 200, w: wallThickness, h: 400},
+        {x: 550, y: 0, w: wallThickness, h: 400}
     ]
 
     const keys = {
@@ -59,6 +59,7 @@
             shipYSpeed = 0
             text = "You did it!"
             gameState = "success"
+            clearInterval(drawTimer)
 
         //check collision with any wall (failed)
         } else if (checkCollisions()) {
@@ -66,6 +67,7 @@
             shipYSpeed = 0
             text = "Game Over!"
             gameState = "failed"
+            clearInterval(drawTimer)
         }
 
         //move ship
@@ -154,7 +156,7 @@
 
         <!-- walls -->
          {#each walls as wall}
-            <rect x={wall.x} y={wall.y} width={wall.w} height={wall.h} fill="#00aa00" />    
+            <rect x={wall.x} y={wall.y} width={wall.w} height={wall.h} class="wall" />    
          {/each}
 
         <!-- ship -->
@@ -204,6 +206,10 @@
 <style>
     .bg {
         fill: #003300; 
+    }
+
+    .wall {
+        fill: #00aa00;
     }
     .ship {
         stroke: #006699; 
