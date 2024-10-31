@@ -6,7 +6,7 @@
 <main>
 	{#if gameState === "start"}
 		<div class="start-div">
-			<p class="text">Du skal styre det lille blå rumskib hen til den røde udgang. Rører du væggene undervejs, dør du!<br><br>Brug piletasterne eller WASD til at styre rumskibet.</p>
+			<p class="text">Du skal styre det lille blå rumskib ud af labyrinten. Rører du væggene undervejs, dør du!<br><br>Brug piletasterne eller WASD til at styre rumskibet.</p>
 			<br><br>
 			<p class="text"><button on:click={(e) => gameState = "game"}>Start Game</button></p>
 		</div>
