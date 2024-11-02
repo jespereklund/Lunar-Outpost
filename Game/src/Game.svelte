@@ -1,135 +1,79 @@
 <script>
     import { onMount } from "svelte"
+    import KeyboardManager from "./KeyboardManager.js"
+    import Tracks from "./Tracks.js";
+
     let canvasWidth = 800
     let canvasHeight = 600
-    let background = '#003300'
 
     const shipSize = 100
     const drawTime = 20
     const acc = 0.05
-    const wallThickness = 20
-
-    const wall1 = {
-        x: 250, 
-        y: 300, 
-        w: wallThickness, 
-        h: 300
-    }
-
-    const wall2 = {
-        x: 550, 
-        y: 0, 
-        w: wallThickness, 
-        h: 300
-    }
-
-    const keys = {
-        left: [37, 65], //arrow left and a
-        right: [39, 68], //arrow right and d
-        up: [38, 87], //arrow up and w
-        down: [40, 83] //arrow down and s
-    }
-
+    
+    let tracks = new Tracks()
     let drawTimer
-    let canvas
+    let svg
     let shipX = 80
     let shipY = 420
     let shipXSpeed = 0
     let shipYSpeed = 0
-    let ctx
+    let text
     let timeString = "0.0 seconds"
     let startTime
-    let gameRunning = false
-    let trust = {
-        left: 0,
-        right: 0,
-        up: 0, 
-        down: 0
-    }
+    let gameState = "start"
+    let keyboardManager = new KeyboardManager()
 
     onMount(async () => {
-        drawTimer = setInterval(draw, drawTime)
-        ctx = canvas.getContext('2d')
+        drawTimer = setInterval(nextFrame, drawTime)
         document.onkeydown = keyDownHandler
         document.onkeyup = keyUpHandler
-        ctx.font = "bold 100px Courier"
     })
 
     //called when first key is pressed
     function startGame() {
-        if(!gameRunning) {
+        if(gameState === "start") {
             startTime = new Date()
-            gameRunning = true
+            gameState = "running"
         }
     }
 
-    //draw all element on screen
-    function draw() {
-        ctx.clearRect(0, 0, canvasWidth, canvasHeight)
+    //calculate movements of the ship and checks for collisions
+    function nextFrame() {
 
-        //outer walls
-        ctx.fillStyle = "#006600"
-        ctx.strokeStyle = "#00ff00"
-        ctx.lineWidth = wallThickness
-        ctx.strokeRect(0, 0, canvasWidth, canvasHeight)
-        
-        //exit
-        ctx.fillStyle = "#990000"
-        ctx.fillRect(wall2.x + wallThickness - 1, 0, 221, wallThickness / 2)
-
-        //inner walls
-        ctx.fillStyle = "#00ff00"
-        ctx.fillRect(wall1.x, wall1.y, wall1.w, wall1.h)
-        ctx.fillRect(wall2.x, wall2.y, wall2.w, wall2.h)
-
-        //ship
-        ctx.fillStyle = "#006699"
-        ctx.fillRect(shipX, shipY, shipSize, shipSize)
-        ctx.fillStyle = "#000066"
-        ctx.fillRect(shipX + 5, shipY + 5, shipSize - 10, shipSize - 10)
-
-        //check collision with red exit bar (succes)
+        //check if ship has left the labyrinth
         if (checkCompleted()) {
             shipXSpeed = 0
             shipYSpeed = 0
-
-            ctx.fillStyle = "#ff3300"
-            ctx.fillText("You did it!", 100, 320)
-
-            gameRunning = false
+            text = "You did it!"
+            gameState = "success"
+            clearInterval(drawTimer)
 
         //check collision with any wall (failed)
         } else if (checkCollisions()) {
             shipXSpeed = 0
             shipYSpeed = 0
-
-            ctx.fillStyle = "#ff3300"
-            ctx.fillText("Game Over!", 110, 320)
-
-            gameRunning = false
+            text = "Game Over!"
+            gameState = "failed"
+            clearInterval(drawTimer)
         }
 
         //move ship
+        shipYSpeed += acc * (keyboardManager.trust.down - keyboardManager.trust.up)
+        shipXSpeed += acc * (keyboardManager.trust.right - keyboardManager.trust.left)
         shipX += shipXSpeed
         shipY += shipYSpeed
-        moveShip()
 
-        //if game is running, draw flames and calcutalte time spend 
-        if (gameRunning) {
-            drawFlames()
+        //if game is running, calcutalte time spend 
+        if (gameState === "running") {
             let now = new Date()
             timeString = ((now - startTime) / 1000).toFixed(1) + " seconds"
         } 
     }
 
-    //test if ship has reached the red exit bar
+    //test if ship has moved outside of the labyrinth
     function checkCompleted() {
         let completed = false
-        if (
-            shipX > wall2.x + wallThickness / 2 && 
-            shipX + shipSize + wallThickness / 2 < canvas.width && 
-            shipY < wallThickness / 2
-        ) {
+        if (shipX < - shipSize || shipX + shipSize > canvasWidth + shipSize || shipY < - shipSize || shipY + shipSize > canvasHeight + shipSize) {
             completed = true
         }
         return completed
@@ -138,131 +82,109 @@
     //test if ship has collided with any of the walls
     function checkCollisions() {
         let collide = false
-
-        if (
-            //outer walls
-            (shipX < wallThickness / 2 
-            || shipX + shipSize + wallThickness / 2 > canvasWidth 
-            || shipY < wallThickness / 2 
-            || shipY + shipSize + wallThickness / 2 > canvasHeight ) 
-            || 
-            
-            //Wall 1
-            ( shipX + shipSize > wall1.x 
-            && shipX < wall1.x + wallThickness 
-            && shipY + shipSize > wall1.y) 
-            || 
-                
-            //Wall 2
-            ( shipX + shipSize > wall2.x
-            && shipX < wall2.x + wallThickness 
-            && shipY < wall2.y + wall2.h)) 
-        {
-            collide = true
-        }
+        tracks.walls.forEach(wall => {
+            if (shipX + shipSize > wall.x && shipX < wall.x + wall.w && shipY + shipSize > wall.y && shipY < wall.y + wall.h) {
+                collide = true
+            }
+        })
         return collide
     }
 
     //set pressed key in trust object to 1 and start game at first keypressed event
     function keyDownHandler(e) {
         startGame()
-        const key = e.keyCode
-        if(keys.left.includes(key)) {
-            trust.left = 1
-        }
-
-        if(keys.right.includes(key)) {
-            trust.right = 1
-        }
-
-        if(keys.up.includes(key)) {
-            trust.up = 1
-        }
-
-        if(keys.down.includes(key)) {
-            trust.down = 1
-        }
+        keyboardManager.keyDownHandler(e.keyCode)
     }
 
     //set released key in trust object to 0
     function keyUpHandler(e) {
-        const key = e.keyCode
-
-        if(keys.left.includes(key)) {
-            trust.left = 0
-        }
-
-        if(keys.right.includes(key)) {
-            trust.right = 0
-        }
-
-        if(keys.up.includes(key)) {
-            trust.up = 0
-        }
-
-        if(keys.down.includes(key)) {
-            trust.down = 0
-        }
-    }
-
-    //change the ships speed according to trust object
-    function moveShip() {
-        shipYSpeed += acc * (trust.down - trust.up)
-        shipXSpeed += acc * (trust.right - trust.left)
-    }
-
-    function drawFlames() {
-        ctx.beginPath();
-        ctx.fillStyle = "#ff6600"
-
-        //buttom
-        if (trust.up === 1) {
-            ctx.moveTo(shipX + shipSize / 2 - 10, shipY + shipSize);
-            ctx.lineTo(shipX + shipSize / 2, shipY + shipSize + Math.random() * 20 + 10);
-            ctx.lineTo(shipX + shipSize / 2 + 10, shipY + shipSize);
-        }
-
-        //top
-        if (trust.down === 1) {
-            ctx.moveTo(shipX + shipSize / 2 - 10, shipY);
-            ctx.lineTo(shipX + shipSize / 2, shipY - Math.random() * 20 - 10);
-            ctx.lineTo(shipX + shipSize / 2 + 10, shipY);
-        }
-
-        //right side
-        if (trust.left === 1) {
-            ctx.moveTo(shipX + shipSize, shipY + shipSize / 2 - 10);
-            ctx.lineTo(shipX + shipSize + Math.random() * 20 + 10, shipY + shipSize / 2 );
-            ctx.lineTo(shipX + shipSize, shipY + shipSize / 2 + 10);
-        }
-
-        //left side
-        if (trust.right === 1) {
-            ctx.moveTo(shipX, shipY + shipSize / 2 - 10);
-            ctx.lineTo(shipX - Math.random() * 20 - 10, shipY + shipSize / 2 );
-            ctx.lineTo(shipX, shipY + shipSize / 2 + 10);
-        }        
-
-        ctx.fill();
+        keyboardManager.keyUpHandler(e.keyCode)
     }
 </script>
 <main>
-    <canvas
+    <svg
         width={canvasWidth}
-		height={canvasHeight}
-        style:background
-        bind:this={canvas} 
-    >
-    </canvas>
+        height={canvasHeight}
+        bind:this={svg}>
+
+        <!-- background -->
+        <rect class="bg" width={canvasWidth} height={canvasHeight} x="0" y="0" />
+
+        <!-- walls -->
+         {#each tracks.walls as wall}
+            <rect x={wall.x} y={wall.y} width={wall.w} height={wall.h} class="wall" />    
+         {/each}
+
+        <!-- ship -->
+        <rect class="ship" x={shipX + 5} y={shipY + 5} width={shipSize - 10} height={shipSize - 10} />
+
+        <!-- end text -->
+        <text x="160" y="300" class="text">{text}</text>
+
+        <!-- buttom flame -->
+        <polygon points="
+            {shipX + shipSize / 2 - 10},{shipY + shipSize - 2} 
+            {shipX + shipSize / 2},{shipY + shipSize + Math.random() * 20 + 10}
+            {shipX + shipSize / 2 + 10},{shipY + shipSize - 2}" 
+            class="flame" 
+            visibility={(keyboardManager.trust.up === 1 && gameState === "running") ? "visible" : "hidden"} />
+
+        <!-- top flame -->
+        <polygon points="
+            {shipX + shipSize / 2 - 10},{shipY + 2}
+            {shipX + shipSize / 2},{shipY - Math.random() * 20 - 10}
+            {shipX + shipSize / 2 + 10},{shipY + 2}" 
+            class="flame" 
+            visibility={(keyboardManager.trust.down === 1 && gameState === "running") ? "visible" : "hidden"} />
+
+        <!-- right side flame -->
+        <polygon points="
+            {shipX + shipSize - 2},{shipY + shipSize / 2 - 10}
+            {shipX + shipSize + Math.random() * 20 + 10},{shipY + shipSize / 2}
+            {shipX + shipSize - 2},{shipY + shipSize / 2 + 10}" 
+            class="flame" 
+            visibility={(keyboardManager.trust.left === 1 && gameState === "running") ? "visible" : "hidden"} />
+
+        <!-- left side flame -->
+        <polygon points="
+            {shipX + 2},{shipY + shipSize / 2 - 10}
+            {shipX - Math.random() * 20 - 10},{shipY + shipSize / 2}
+            {shipX + 2},{shipY + shipSize / 2 + 10}" 
+            class="flame" 
+            visibility={(keyboardManager.trust.right && gameState === "running") ? "visible" : "hidden"} />
+
+    </svg>
     <br>
     <div>
-        <p style="
-            font-size: 40px; 
-            margin: 0; 
-            padding: 0; 
-            color: #00ff00; 
-            font-family:'Courier New', Courier, monospace; 
-            font-weight:bolder;"
-        >{timeString}</p>
+        <p class="time" >{timeString}</p>
     </div>
 </main>
+<style>
+    .bg {
+        fill: #003300; 
+    }
+
+    .wall {
+        fill: #00aa00;
+    }
+    .ship {
+        stroke: #006699; 
+        stroke-width: 5; 
+        fill: #000066;
+    }
+    .flame {
+        fill: #ff6600;
+    }
+    .text {
+        font: bold 80px courier;
+        fill: #00ff00;
+    }
+    .time {
+        font-size: 40px; 
+        margin: 0; 
+        padding: 0; 
+        color: #00ff00; 
+        font-family:'Courier New', Courier, monospace; 
+        font-weight:bolder;
+    }
+</style>
