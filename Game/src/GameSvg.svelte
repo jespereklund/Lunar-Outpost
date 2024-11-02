@@ -1,5 +1,8 @@
 <script>
     import { onMount } from "svelte"
+    import KeyboardManager from "./KeyboardManager.js"
+    import Walls from "./walls.js";
+
     let canvasWidth = 800
     let canvasHeight = 600
 
@@ -8,22 +11,7 @@
     const acc = 0.05
     const wallThickness = 20
 
-    const walls = [
-        {x: 0, y: 0, w: canvasWidth - 230, h: wallThickness},
-        {x: 0, y: 0, w: wallThickness, h: canvasHeight},
-        {x: canvasWidth - wallThickness, y: 0, w: wallThickness, h: canvasHeight},
-        {x: 0, y: canvasHeight - wallThickness, w: canvasWidth, h: wallThickness},
-        {x: 250, y: 200, w: wallThickness, h: 400},
-        {x: 550, y: 0, w: wallThickness, h: 400}
-    ]
-
-    const keys = {
-        left: [37, 65], //arrow left and a
-        right: [39, 68], //arrow right and d
-        up: [38, 87], //arrow up and w
-        down: [40, 83] //arrow down and s
-    }
-
+    let walls = new Walls(canvasWidth, canvasHeight, wallThickness, 0)
     let drawTimer
     let svg
     let shipX = 80
@@ -34,7 +22,7 @@
     let timeString = "0.0 seconds"
     let startTime
     let gameState = "start"
-    let trust = {left: 0, right: 0, up: 0,  down: 0}
+    let keyboardManager = new KeyboardManager()
 
     onMount(async () => {
         drawTimer = setInterval(nextFrame, drawTime)
@@ -50,7 +38,7 @@
         }
     }
 
-    //calculate movements of the ship and check for collisions
+    //calculate movements of the ship and checks for collisions
     function nextFrame() {
 
         //check if ship has left the labyrinth
@@ -71,8 +59,8 @@
         }
 
         //move ship
-        shipYSpeed += acc * (trust.down - trust.up)
-        shipXSpeed += acc * (trust.right - trust.left)
+        shipYSpeed += acc * (keyboardManager.trust.down - keyboardManager.trust.up)
+        shipXSpeed += acc * (keyboardManager.trust.right - keyboardManager.trust.left)
         shipX += shipXSpeed
         shipY += shipYSpeed
 
@@ -95,7 +83,7 @@
     //test if ship has collided with any of the walls
     function checkCollisions() {
         let collide = false
-        walls.forEach(wall => {
+        walls.walls.forEach(wall => {
             if (shipX + shipSize > wall.x && shipX < wall.x + wall.w && shipY + shipSize > wall.y && shipY < wall.y + wall.h) {
                 collide = true
             }
@@ -106,43 +94,12 @@
     //set pressed key in trust object to 1 and start game at first keypressed event
     function keyDownHandler(e) {
         startGame()
-        const key = e.keyCode
-        if(keys.left.includes(key)) {
-            trust.left = 1
-        }
-
-        if(keys.right.includes(key)) {
-            trust.right = 1
-        }
-
-        if(keys.up.includes(key)) {
-            trust.up = 1
-        }
-
-        if(keys.down.includes(key)) {
-            trust.down = 1
-        }
+        keyboardManager.keyDownHandler(e.keyCode)
     }
 
     //set released key in trust object to 0
     function keyUpHandler(e) {
-        const key = e.keyCode
-
-        if(keys.left.includes(key)) {
-            trust.left = 0
-        }
-
-        if(keys.right.includes(key)) {
-            trust.right = 0
-        }
-
-        if(keys.up.includes(key)) {
-            trust.up = 0
-        }
-
-        if(keys.down.includes(key)) {
-            trust.down = 0
-        }
+        keyboardManager.keyUpHandler(e.keyCode)
     }
 </script>
 <main>
@@ -155,7 +112,7 @@
         <rect class="bg" width={canvasWidth} height={canvasHeight} x="0" y="0" />
 
         <!-- walls -->
-         {#each walls as wall}
+         {#each walls.walls as wall}
             <rect x={wall.x} y={wall.y} width={wall.w} height={wall.h} class="wall" />    
          {/each}
 
@@ -171,7 +128,7 @@
             {shipX + shipSize / 2},{shipY + shipSize + Math.random() * 20 + 10}
             {shipX + shipSize / 2 + 10},{shipY + shipSize - 2}" 
             class="flame" 
-            visibility={(trust.up === 1 && gameState === "running") ? "visible" : "hidden"} />
+            visibility={(keyboardManager.trust.up === 1 && gameState === "running") ? "visible" : "hidden"} />
 
         <!-- top flame -->
         <polygon points="
@@ -179,7 +136,7 @@
             {shipX + shipSize / 2},{shipY - Math.random() * 20 - 10}
             {shipX + shipSize / 2 + 10},{shipY + 2}" 
             class="flame" 
-            visibility={(trust.down === 1 && gameState === "running") ? "visible" : "hidden"} />
+            visibility={(keyboardManager.trust.down === 1 && gameState === "running") ? "visible" : "hidden"} />
 
         <!-- right side flame -->
         <polygon points="
@@ -187,7 +144,7 @@
             {shipX + shipSize + Math.random() * 20 + 10},{shipY + shipSize / 2}
             {shipX + shipSize - 2},{shipY + shipSize / 2 + 10}" 
             class="flame" 
-            visibility={(trust.left === 1 && gameState === "running") ? "visible" : "hidden"} />
+            visibility={(keyboardManager.trust.left === 1 && gameState === "running") ? "visible" : "hidden"} />
 
         <!-- left side flame -->
         <polygon points="
@@ -195,7 +152,7 @@
             {shipX - Math.random() * 20 - 10},{shipY + shipSize / 2}
             {shipX + 2},{shipY + shipSize / 2 + 10}" 
             class="flame" 
-            visibility={(trust.right && gameState === "running") ? "visible" : "hidden"} />
+            visibility={(keyboardManager.trust.right && gameState === "running") ? "visible" : "hidden"} />
 
     </svg>
     <br>
