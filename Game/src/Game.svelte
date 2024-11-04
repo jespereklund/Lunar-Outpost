@@ -42,7 +42,7 @@
     function nextFrame() {
 
         //check if ship has left the labyrinth
-        if (checkCompleted()) {
+        if (shipX < - shipSize || shipX + shipSize > canvasWidth + shipSize || shipY < - shipSize || shipY + shipSize > canvasHeight + shipSize) {
             shipXSpeed = 0
             shipYSpeed = 0
             text = "You did it!"
@@ -69,15 +69,6 @@
             let now = new Date()
             timeString = ((now - startTime) / 1000).toFixed(1) + " seconds"
         } 
-    }
-
-    //test if ship has moved outside of the labyrinth
-    function checkCompleted() {
-        let completed = false
-        if (shipX < - shipSize || shipX + shipSize > canvasWidth + shipSize || shipY < - shipSize || shipY + shipSize > canvasHeight + shipSize) {
-            completed = true
-        }
-        return completed
     }
 
     //test if ship has collided with any of the walls

@@ -10,7 +10,6 @@
 			<p class="text"><button on:click={(e) => gameState = "game"}>Start Game</button></p>
 		</div>
 	{:else if gameState === "game" }
-		<!-- Game></Game -->
 		<Game></Game>
 	{/if}
 </main>
