@@ -3,14 +3,13 @@
     import KeyboardManager from "./KeyboardManager.js"
     import Tracks from "./Tracks.js";
 
-    let canvasWidth = 800
+    let canvasWidth = 1000
     let canvasHeight = 600
 
     const shipSize = 100
     const drawTime = 20
     const acc = 0.05
     
-    let tracks = new Tracks()
     let drawTimer
     let svg
     let shipX = 80
@@ -21,6 +20,8 @@
     let timeString = "0.0 seconds"
     let startTime
     let gameState = "start"
+
+    let tracks = new Tracks()
     let keyboardManager = new KeyboardManager()
 
     onMount(async () => {
