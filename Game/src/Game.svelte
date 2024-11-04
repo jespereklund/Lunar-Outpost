@@ -111,7 +111,7 @@
         <rect class="ship" x={shipX + 5} y={shipY + 5} width={shipSize - 10} height={shipSize - 10} />
 
         <!-- end text -->
-        <text x="160" y="300" class="text">{text}</text>
+        <text x="240" y="300" class="text">{text}</text>
 
         <!-- buttom flame -->
         <polygon points="
