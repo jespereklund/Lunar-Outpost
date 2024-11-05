@@ -75,7 +75,7 @@
     function checkCollisions() {
         let collide = false
         tracks.walls.forEach(wall => {
-            if (shipX + shipSize > wall.x && shipX < wall.x + wall.w && shipY + shipSize > wall.y && shipY < wall.y + wall.h) {
+            if (shipX - 2.5 + shipSize > wall.x && shipX + 2.5 < wall.x + wall.w && shipY - 2.5 + shipSize > wall.y && shipY + 2.5 < wall.y + wall.h) {
                 collide = true
             }
         })

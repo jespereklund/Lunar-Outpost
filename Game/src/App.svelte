@@ -29,6 +29,7 @@
 	}
 
 	.text {
+		width: 900px;
 		font-family: 'Courier New', Courier, monospace;
 		font-size: 40px;
 		font-weight: bolder;
@@ -38,7 +39,7 @@
 	}
 
 	.start-div {
-		width: 800px; 
+		width: 1000px; 
 		height: 600px; 
 		background-color: #003300;
 		display: flex;
