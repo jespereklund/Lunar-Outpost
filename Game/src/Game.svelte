@@ -1,7 +1,10 @@
 <script>
     import { onMount } from "svelte"
     import KeyboardManager from "./KeyboardManager.js"
-    import Tracks from "./Tracks.js";
+    import {tracks} from "./Tracks.js";
+    import { createEventDispatcher } from "svelte";
+
+    export let currentTrackNr = 0
 
     let canvasWidth = 1000
     let canvasHeight = 600
@@ -9,22 +12,31 @@
     const shipSize = 100
     const drawTime = 20
     const acc = 0.05
+    const wallSpeed = 0.25
     
     let drawTimer
     let svg
-    let shipX = 80
-    let shipY = 420
-    let shipXSpeed = 0
-    let shipYSpeed = 0
+    let ship = {
+        x: 0, 
+        y: 0, 
+        xSpeed: 0, 
+        ySpeed: 0 
+    }
+
     let text
     let timeString = "0.0 seconds"
     let startTime
     let gameState = "start"
+    let currentTrack = {}
 
-    let tracks = new Tracks()
     let keyboardManager = new KeyboardManager()
+    const dispatch = createEventDispatcher()
 
     onMount(async () => {
+        currentTrack = [...tracks][currentTrackNr]
+        console.log("walls", currentTrack)
+        ship.x = currentTrack.ship.x
+        ship.y = currentTrack.ship.y
         drawTimer = setInterval(nextFrame, drawTime)
         document.onkeydown = keyDownHandler
         document.onkeyup = keyUpHandler
@@ -41,28 +53,71 @@
     //calculate movements of the ship and checks for collisions
     function nextFrame() {
 
+        //move walls
+        for(let i=0; i<currentTrack.walls.length; i++) {
+
+            //move x-axis
+            if (currentTrack.walls[i].moveX != undefined) {
+                if(currentTrack.walls[i].moveX.dir === 1) {
+                    if(currentTrack.walls[i].x < currentTrack.walls[i].moveX.xMax) {
+                        currentTrack.walls[i].x += wallSpeed
+                    } else {
+                        currentTrack.walls[i].moveX.dir = -1
+                    }
+
+                } else if (currentTrack.walls[i].moveX.dir === -1) {
+                    if(currentTrack.walls[i].x > currentTrack.walls[i].moveX.xMin) {
+                        currentTrack.walls[i].x -= wallSpeed
+                    } else {
+                        currentTrack.walls[i].moveX.dir = +1
+                    }
+
+                }
+            }
+
+            //move y-axis
+            if (currentTrack.walls[i].moveY != undefined) {
+                if(currentTrack.walls[i].moveY.dir === 1) {
+                    if(currentTrack.walls[i].y < currentTrack.walls[i].moveY.yMax) {
+                        currentTrack.walls[i].y += wallSpeed
+                    } else {
+                        currentTrack.walls[i].moveY.dir = -1
+                    }
+                } else if (currentTrack.walls[i].moveY.dir === -1) {
+                    if(currentTrack.walls[i].y > currentTrack.walls[i].moveY.yMin) {
+                        currentTrack.walls[i].y -= wallSpeed
+                    } else {
+                        currentTrack.walls[i].moveY.dir = +1
+                    }
+                }
+            }
+        }
+
+
         //check if ship has left the labyrinth
-        if (shipX < - shipSize || shipX + shipSize > canvasWidth + shipSize || shipY < - shipSize || shipY + shipSize > canvasHeight + shipSize) {
-            shipXSpeed = 0
-            shipYSpeed = 0
+        if (ship.x < - shipSize || ship.x + shipSize > canvasWidth + shipSize || ship.y < - shipSize || ship.y + shipSize > canvasHeight + shipSize) {
+            ship.xSpeed = 0
+            ship.ySpeed = 0
             text = "You did it!"
             gameState = "success"
+            dispatch("success")
             clearInterval(drawTimer)
 
         //check collision with any wall (failed)
         } else if (checkCollisions()) {
-            shipXSpeed = 0
-            shipYSpeed = 0
+            ship.xSpeed = 0
+            ship.ySpeed = 0
             text = "Game Over!"
             gameState = "failed"
+            dispatch("failed")
             clearInterval(drawTimer)
         }
 
         //move ship
-        shipYSpeed += acc * (keyboardManager.trust.down - keyboardManager.trust.up)
-        shipXSpeed += acc * (keyboardManager.trust.right - keyboardManager.trust.left)
-        shipX += shipXSpeed
-        shipY += shipYSpeed
+        ship.ySpeed += acc * (keyboardManager.trust.down - keyboardManager.trust.up)
+        ship.xSpeed += acc * (keyboardManager.trust.right - keyboardManager.trust.left)
+        ship.x += ship.xSpeed
+        ship.y += ship.ySpeed
 
         //if game is running, calcutalte time spend 
         if (gameState === "running") {
@@ -74,8 +129,8 @@
     //test if ship has collided with any of the walls
     function checkCollisions() {
         let collide = false
-        tracks.walls.forEach(wall => {
-            if (shipX - 2.5 + shipSize > wall.x && shipX + 2.5 < wall.x + wall.w && shipY - 2.5 + shipSize > wall.y && shipY + 2.5 < wall.y + wall.h) {
+        currentTrack.walls.forEach(wall => {
+            if (ship.x - 2.5 + shipSize > wall.x && ship.x + 2.5 < wall.x + wall.w && ship.y - 2.5 + shipSize > wall.y && ship.y + 2.5 < wall.y + wall.h) {
                 collide = true
             }
         })
@@ -103,48 +158,47 @@
         <rect class="bg" width={canvasWidth} height={canvasHeight} x="0" y="0" />
 
         <!-- walls -->
-         {#each tracks.walls as wall}
+         {#each currentTrack.walls as wall}
             <rect x={wall.x} y={wall.y} width={wall.w} height={wall.h} class="wall" />    
          {/each}
 
         <!-- ship -->
-        <rect class="ship" x={shipX + 5} y={shipY + 5} width={shipSize - 10} height={shipSize - 10} />
+        <rect class="ship" x={ship.x + 5} y={ship.y + 5} width={shipSize - 10} height={shipSize - 10} />
 
         <!-- end text -->
         <text x="240" y="300" class="text">{text}</text>
 
         <!-- buttom flame -->
         <polygon points="
-            {shipX + shipSize / 2 - 10},{shipY + shipSize - 2} 
-            {shipX + shipSize / 2},{shipY + shipSize + Math.random() * 20 + 10}
-            {shipX + shipSize / 2 + 10},{shipY + shipSize - 2}" 
+            {ship.x + shipSize / 2 - 10},{ship.y + shipSize - 2} 
+            {ship.x + shipSize / 2},{ship.y + shipSize + Math.random() * 20 + 10}
+            {ship.x + shipSize / 2 + 10},{ship.y + shipSize - 2}" 
             class="flame" 
             visibility={(keyboardManager.trust.up === 1 && gameState === "running") ? "visible" : "hidden"} />
 
         <!-- top flame -->
         <polygon points="
-            {shipX + shipSize / 2 - 10},{shipY + 2}
-            {shipX + shipSize / 2},{shipY - Math.random() * 20 - 10}
-            {shipX + shipSize / 2 + 10},{shipY + 2}" 
+            {ship.x + shipSize / 2 - 10},{ship.y + 2}
+            {ship.x + shipSize / 2},{ship.y - Math.random() * 20 - 10}
+            {ship.x + shipSize / 2 + 10},{ship.y + 2}" 
             class="flame" 
             visibility={(keyboardManager.trust.down === 1 && gameState === "running") ? "visible" : "hidden"} />
 
         <!-- right side flame -->
         <polygon points="
-            {shipX + shipSize - 2},{shipY + shipSize / 2 - 10}
-            {shipX + shipSize + Math.random() * 20 + 10},{shipY + shipSize / 2}
-            {shipX + shipSize - 2},{shipY + shipSize / 2 + 10}" 
+            {ship.x + shipSize - 2},{ship.y + shipSize / 2 - 10}
+            {ship.x + shipSize + Math.random() * 20 + 10},{ship.y + shipSize / 2}
+            {ship.x + shipSize - 2},{ship.y + shipSize / 2 + 10}" 
             class="flame" 
             visibility={(keyboardManager.trust.left === 1 && gameState === "running") ? "visible" : "hidden"} />
 
         <!-- left side flame -->
         <polygon points="
-            {shipX + 2},{shipY + shipSize / 2 - 10}
-            {shipX - Math.random() * 20 - 10},{shipY + shipSize / 2}
-            {shipX + 2},{shipY + shipSize / 2 + 10}" 
+            {ship.x + 2},{ship.y + shipSize / 2 - 10}
+            {ship.x - Math.random() * 20 - 10},{ship.y + shipSize / 2}
+            {ship.x + 2},{ship.y + shipSize / 2 + 10}" 
             class="flame" 
             visibility={(keyboardManager.trust.right && gameState === "running") ? "visible" : "hidden"} />
-
     </svg>
     <br>
     <div>
