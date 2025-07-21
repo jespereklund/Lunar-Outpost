@@ -159,7 +159,7 @@
 
         <!-- walls -->
          {#each currentTrack.walls as wall}
-            <rect x={wall.x} y={wall.y} width={wall.w} height={wall.h} class="wall" />    
+            <rect x={wall.x} y={wall.y} width={wall.w} height={wall.h} style="fill: {currentTrack.fill};" />    
          {/each}
 
         <!-- ship -->
@@ -208,10 +208,6 @@
 <style>
     .bg {
         fill: #003300; 
-    }
-
-    .wall {
-        fill: #00aa00;
     }
     .ship {
         stroke: #006699; 

@@ -12,7 +12,8 @@ export const tracks =
                 {x: 500, y: 400, w:300, h:20, moveX: {xMin: 500, xMax: 680, dir: 1}},
                 {x: 700, y:200, w:400, h: 20}
             ],
-        ship: {x: 80, y: 420}
+        ship: {x: 80, y: 420},
+        fill: "#00aa00"
     },
     {
         walls:
@@ -21,6 +22,7 @@ export const tracks =
                     {x: 0, y: 0, w: 1000, h: 20} //north
                 ]
             ],
-        ship: {x: 80, y: 420}
+        ship: {x: 80, y: 420},
+        fill: "#aa0000"
     }
 ]
