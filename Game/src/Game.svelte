@@ -49,7 +49,7 @@
         }
     }
 
-    //calculate movements of the ship and checks for collisions
+    //calculate movements of the ship and walls and test for collisions
     function nextFrame() {
 
         //move walls
