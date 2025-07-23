@@ -3,6 +3,14 @@ export const tracks =
     {
         walls:
             [
+                {x: 0, y: 0, w: 1000, h: 20} //north
+            ],
+        ship: {x: 80, y: 420},
+        fill: "#660000"
+    },
+    {
+        walls:
+            [
                 {x: 0, y: 0, w: 1000, h: 20}, //north
                 {x: 0, y: 0, w: 20, h: 600}, //west
                 {x: 980, y: 200, w: 20, h: 600}, //east
@@ -14,15 +22,5 @@ export const tracks =
             ],
         ship: {x: 80, y: 420},
         fill: "#00aa00"
-    },
-    {
-        walls:
-            [
-                [
-                    {x: 0, y: 0, w: 1000, h: 20} //north
-                ]
-            ],
-        ship: {x: 80, y: 420},
-        fill: "#aa0000"
     }
 ]

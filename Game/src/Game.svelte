@@ -24,7 +24,6 @@
     }
 
     let text
-    let timeString = "0.0 seconds"
     let startTime
     let gameState = "start"
     let currentTrack = {}
@@ -34,7 +33,7 @@
 
     onMount(async () => {
         currentTrack = [...tracks][currentTrackNr]
-        console.log("walls", currentTrack)
+        //console.log("walls", currentTrack)
         ship.x = currentTrack.ship.x
         ship.y = currentTrack.ship.y
         drawTimer = setInterval(nextFrame, drawTime)
@@ -118,12 +117,6 @@
         ship.xSpeed += acc * (keyboardManager.trust.right - keyboardManager.trust.left)
         ship.x += ship.xSpeed
         ship.y += ship.ySpeed
-
-        //if game is running, calcutalte time spend 
-        if (gameState === "running") {
-            let now = new Date()
-            timeString = ((now - startTime) / 1000).toFixed(1) + " seconds"
-        } 
     }
 
     //test if ship has collided with any of the walls
@@ -149,6 +142,7 @@
     }
 </script>
 <main>
+    <div class="top-text">Bane {currentTrackNr + 1}</div>
     <svg
         width={canvasWidth}
         height={canvasHeight}
@@ -201,9 +195,6 @@
             visibility={(keyboardManager.trust.right && gameState === "running") ? "visible" : "hidden"} />
     </svg>
     <br>
-    <div>
-        <p class="time" >{timeString}</p>
-    </div>
 </main>
 <style>
     .bg {
@@ -220,6 +211,15 @@
     .text {
         font: bold 80px courier;
         fill: #00ff00;
+    }
+    .top-text {
+		width: 1000px;
+		font-family: 'Courier New', Courier, monospace;
+		font-size: 40px;
+		font-weight: bolder;
+		color: #009900;
+		margin: 0;
+		text-align: center;        
     }
     .time {
         font-size: 40px; 
