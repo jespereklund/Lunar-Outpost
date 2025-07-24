@@ -127,7 +127,7 @@
         return collide
     }
 
-    //set pressed key in trust object to 1 and start game at first keypressed event
+    //set pressed key in trust object to 1 
     function keyDownHandler(e) {
         keyboardManager.keyDownHandler(e.keyCode)
     }
