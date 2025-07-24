@@ -30,7 +30,7 @@
 			<p class="text"><button class="big-btn" on:click={(e) => gameState = "game"}>Start spil</button></p>
 		</div>
 	{:else if gameState === "game" }
-		<Game currentTrackNr = {trackNr} on:success={success} on:failed={failed}></Game>
+		<Game currentTrackNr = {trackNr} {numOfTracks} on:success={success} on:failed={failed}></Game>
 	{:else if gameState === "failed"}
 		<div class="text">Du døde!
 			<br><br>

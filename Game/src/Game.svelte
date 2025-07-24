@@ -5,6 +5,8 @@
     import { createEventDispatcher } from "svelte";
 
     export let currentTrackNr = 0
+    export let numOfTracks = 0
+    let wallColor 
 
     let canvasWidth = 1000
     let canvasHeight = 600
@@ -24,30 +26,22 @@
     }
 
     let text
-    let startTime
-    let gameState = "start"
     let currentTrack = {}
+    let wallHue
 
     let keyboardManager = new KeyboardManager()
     const dispatch = createEventDispatcher()
 
     onMount(async () => {
         currentTrack = [...tracks][currentTrackNr]
-        //console.log("walls", currentTrack)
+        wallHue = 365 * (currentTrackNr / numOfTracks)
+        wallColor = "hsl(" + wallHue + ", 100%, 50%)"
         ship.x = currentTrack.ship.x
         ship.y = currentTrack.ship.y
         drawTimer = setInterval(nextFrame, drawTime)
         document.onkeydown = keyDownHandler
         document.onkeyup = keyUpHandler
     })
-
-    //called when first key is pressed
-    function startGame() {
-        if(gameState === "start") {
-            startTime = new Date()
-            gameState = "running"
-        }
-    }
 
     //calculate movements of the ship and walls and test for collisions
     function nextFrame() {
@@ -98,7 +92,6 @@
             ship.xSpeed = 0
             ship.ySpeed = 0
             text = "You did it!"
-            gameState = "success"
             dispatch("success")
             clearInterval(drawTimer)
 
@@ -107,7 +100,6 @@
             ship.xSpeed = 0
             ship.ySpeed = 0
             text = "Game Over!"
-            gameState = "failed"
             dispatch("failed")
             clearInterval(drawTimer)
         }
@@ -132,7 +124,6 @@
 
     //set pressed key in trust object to 1 and start game at first keypressed event
     function keyDownHandler(e) {
-        startGame()
         keyboardManager.keyDownHandler(e.keyCode)
     }
 
@@ -140,9 +131,10 @@
     function keyUpHandler(e) {
         keyboardManager.keyUpHandler(e.keyCode)
     }
+    
 </script>
 <main>
-    <div class="top-text">Bane {currentTrackNr + 1}</div>
+    <div style="color: hsl({wallHue} 100% 50%);" class="top-text">Bane {currentTrackNr + 1}</div>
     <svg
         width={canvasWidth}
         height={canvasHeight}
@@ -153,7 +145,7 @@
 
         <!-- walls -->
          {#each currentTrack.walls as wall}
-            <rect x={wall.x} y={wall.y} width={wall.w} height={wall.h} style="fill: {currentTrack.fill};" />    
+            <rect x={wall.x} y={wall.y} width={wall.w} height={wall.h} fill={wallColor} />    
          {/each}
 
         <!-- ship -->
@@ -168,7 +160,7 @@
             {ship.x + shipSize / 2},{ship.y + shipSize + Math.random() * 20 + 10}
             {ship.x + shipSize / 2 + 10},{ship.y + shipSize - 2}" 
             class="flame" 
-            visibility={(keyboardManager.trust.up === 1 && gameState === "running") ? "visible" : "hidden"} />
+            visibility={(keyboardManager.trust.up === 1 ) ? "visible" : "hidden"} />
 
         <!-- top flame -->
         <polygon points="
@@ -176,7 +168,7 @@
             {ship.x + shipSize / 2},{ship.y - Math.random() * 20 - 10}
             {ship.x + shipSize / 2 + 10},{ship.y + 2}" 
             class="flame" 
-            visibility={(keyboardManager.trust.down === 1 && gameState === "running") ? "visible" : "hidden"} />
+            visibility={(keyboardManager.trust.down === 1 ) ? "visible" : "hidden"} />
 
         <!-- right side flame -->
         <polygon points="
@@ -184,7 +176,7 @@
             {ship.x + shipSize + Math.random() * 20 + 10},{ship.y + shipSize / 2}
             {ship.x + shipSize - 2},{ship.y + shipSize / 2 + 10}" 
             class="flame" 
-            visibility={(keyboardManager.trust.left === 1 && gameState === "running") ? "visible" : "hidden"} />
+            visibility={(keyboardManager.trust.left === 1 ) ? "visible" : "hidden"} />
 
         <!-- left side flame -->
         <polygon points="
@@ -192,7 +184,7 @@
             {ship.x - Math.random() * 20 - 10},{ship.y + shipSize / 2}
             {ship.x + 2},{ship.y + shipSize / 2 + 10}" 
             class="flame" 
-            visibility={(keyboardManager.trust.right && gameState === "running") ? "visible" : "hidden"} />
+            visibility={(keyboardManager.trust.right === 1 ) ? "visible" : "hidden"} />
     </svg>
     <br>
 </main>
@@ -217,16 +209,7 @@
 		font-family: 'Courier New', Courier, monospace;
 		font-size: 40px;
 		font-weight: bolder;
-		color: #009900;
 		margin: 0;
 		text-align: center;        
-    }
-    .time {
-        font-size: 40px; 
-        margin: 0; 
-        padding: 0; 
-        color: #00ff00; 
-        font-family:'Courier New', Courier, monospace; 
-        font-weight:bolder;
     }
 </style>
