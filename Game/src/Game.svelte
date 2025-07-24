@@ -1,8 +1,8 @@
 <script>
     import { onMount } from "svelte"
     import KeyboardManager from "./KeyboardManager.js"
-    import {tracks} from "./Tracks.js";
-    import { createEventDispatcher } from "svelte";
+    import {tracks} from "./Tracks.js"
+    import { createEventDispatcher } from "svelte"
 
     export let currentTrackNr = 0
     export let numOfTracks = 0

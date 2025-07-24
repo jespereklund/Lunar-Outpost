@@ -1,7 +1,7 @@
 <script>
-  import Game from "./Game.svelte";
-  import { tracks } from "./Tracks";
-  const numOfTracks = tracks.length;
+  import Game from "./Game.svelte"
+  import { tracks } from "./Tracks"
+  const numOfTracks = tracks.length
   let gameState = "start"
   let trackNr = 0
 
