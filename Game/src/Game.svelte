@@ -25,7 +25,6 @@
         ySpeed: 0 
     }
 
-    let text
     let currentTrack = {}
     let wallHue
 
@@ -95,7 +94,6 @@
         {
             ship.xSpeed = 0
             ship.ySpeed = 0
-            text = "You did it!"
             dispatch("success")
             clearInterval(drawTimer)
 
@@ -103,7 +101,6 @@
         } else if (checkCollisions()) {
             ship.xSpeed = 0
             ship.ySpeed = 0
-            text = "Game Over!"
             dispatch("failed")
             clearInterval(drawTimer)
         }
@@ -158,9 +155,6 @@
 
         <!-- ship -->
         <rect class="ship" x={ship.x + 5} y={ship.y + 5} width={shipSize - 10} height={shipSize - 10} />
-
-        <!-- end text -->
-        <text x="240" y="300" class="text">{text}</text>
 
         <!-- buttom flame -->
         <polygon points="
