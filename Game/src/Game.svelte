@@ -202,10 +202,6 @@
     .flame {
         fill: #ff6600;
     }
-    .text {
-        font: bold 80px courier;
-        fill: #00ff00;
-    }
     .top-text {
         width: 1000px;
         font-family: 'Courier New', Courier, monospace;
