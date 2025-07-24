@@ -88,7 +88,11 @@
 
 
         //check if ship has left the labyrinth
-        if (ship.x < - shipSize || ship.x + shipSize > canvasWidth + shipSize || ship.y < - shipSize || ship.y + shipSize > canvasHeight + shipSize) {
+        if (ship.x < - shipSize 
+            || ship.x + shipSize > canvasWidth + shipSize 
+            || ship.y < - shipSize 
+            || ship.y + shipSize > canvasHeight + shipSize) 
+        {
             ship.xSpeed = 0
             ship.ySpeed = 0
             text = "You did it!"
@@ -115,7 +119,11 @@
     function checkCollisions() {
         let collide = false
         currentTrack.walls.forEach(wall => {
-            if (ship.x - 2.5 + shipSize > wall.x && ship.x + 2.5 < wall.x + wall.w && ship.y - 2.5 + shipSize > wall.y && ship.y + 2.5 < wall.y + wall.h) {
+            if (ship.x - 2.5 + shipSize > wall.x 
+                && ship.x + 2.5 < wall.x + wall.w 
+                && ship.y - 2.5 + shipSize > wall.y 
+                && ship.y + 2.5 < wall.y + wall.h) 
+            {
                 collide = true
             }
         })
