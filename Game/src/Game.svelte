@@ -205,11 +205,11 @@
         fill: #00ff00;
     }
     .top-text {
-		width: 1000px;
-		font-family: 'Courier New', Courier, monospace;
-		font-size: 40px;
-		font-weight: bolder;
-		margin: 0;
-		text-align: center;        
+        width: 1000px;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 40px;
+        font-weight: bolder;
+        margin: 0;
+        text-align: center;        
     }
 </style>
