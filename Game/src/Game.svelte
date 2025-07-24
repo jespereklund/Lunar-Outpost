@@ -45,7 +45,7 @@
     //calculate movements of the ship and walls and test for collisions
     function nextFrame() {
 
-        //move walls
+        //move walls if moxeX or moveY is declared in Tracks.js walls
         for(let i=0; i<currentTrack.walls.length; i++) {
 
             //move x-axis
