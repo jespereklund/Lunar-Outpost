@@ -1,6 +1,8 @@
 <script>
   import Game from "./Game.svelte"
   import { tracks } from "./Tracks"
+  import TrackSelector from "./TrackSelector.svelte"
+
   const numOfTracks = tracks.length
   let gameState = "start"
   let trackNr = 0
@@ -22,6 +24,11 @@
 	gameState = "game"
   }
 
+  function selectTrack(evt) {
+	trackNr = evt.detail.trackNr
+	gameState = "game"
+  }
+
 </script>
 <main>
 {#if gameState === "start"}
@@ -30,7 +37,11 @@
 				<br><br>Brug piletasterne eller WASD til at styre rumskibet.</p>
 			<br><br>
 			<p class="text"><button class="big-btn" on:click={(e) => gameState = "game"}>Start spil</button></p>
+			<br><br>
+			<p class="text"><button class="big-btn" on:click={(e) => gameState = "select"}>Vælg bane</button></p>
 		</div>
+	{:else if gameState === "select" }	
+		<TrackSelector on:select={selectTrack} />
 	{:else if gameState === "game" }
 		<Game currentTrackNr = {trackNr} {numOfTracks} on:success={success} on:failed={failed}></Game>
 	{:else if gameState === "failed"}
