@@ -6,7 +6,7 @@
     const trackRatio = 0.2
     const canvasWidth=200
     const canvasHeight=120
-    const wallSpeed = 25
+    const wallSpeed = 0.25
     const drawTime = 20
 
     let drawTimer
@@ -29,6 +29,7 @@
     }
 
     function nextFrame() {
+        tracksCopy = [...tracks] 
         tracksCopy.forEach((track) => {
 
             //move walls if moxeX or moveY is declared in Tracks.js walls
@@ -75,9 +76,7 @@
 </script>
 <main>
     <div class="select-div">
-        <p class="text">
-            Her kan du vælge bane
-        </p>
+        <p class="text">Her kan du vælge bane</p>
         <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 15px 15px;">
 
         {#each tracksCopy as track, index}
