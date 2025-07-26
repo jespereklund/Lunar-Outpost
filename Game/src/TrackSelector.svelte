@@ -78,7 +78,7 @@
     <div class="select-div">
         <p class="text">Her kan du vælge bane</p>
         <br><br>
-        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 15px 15px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 30px 15px;">
 
         {#each tracksCopy as track, index}
             <button style="background-color: transparent; border: none; cursor: pointer;" on:click={e => {selectTrack(index)}}>
