@@ -77,6 +77,7 @@
 <main>
     <div class="select-div">
         <p class="text">Her kan du vælge bane</p>
+        <br><br>
         <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 15px 15px;">
 
         {#each tracksCopy as track, index}
@@ -117,7 +118,7 @@
 		font-family: 'Courier New', Courier, monospace;
 		font-size: 40px;
 		font-weight: bolder;
-		color: #009900;
+		color: #00ff00;
 		margin: 0;
 		text-align: center;
 	}

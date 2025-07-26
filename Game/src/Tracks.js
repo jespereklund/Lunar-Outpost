@@ -63,6 +63,33 @@ export const tracks =
                 {x: 0, y: 0, w: 20, h: 600}, //west
                 {x: 980, y: 200, w: 20, h: 600}, //east
                 {x: 0, y: 580, w: 1000, h: 20}, //south
+                {x: 240, y: 200, w: 20, h: 400, moveY: {yMin: 0, yMax: 200, dir: -1}},
+                {x: 480, y: 0, w: 20, h: 400, moveY: {yMin: 0, yMax: 200, dir: -1}},
+                {x: 720, y: 200, w: 20, h: 400, moveY: {yMin: 0, yMax: 200, dir: -1}},
+                
+            ],
+        ship: {x: 80, y: 420}
+    },    
+    {
+        walls:
+            [
+                {x: 0, y: 0, w: 1000, h: 20}, //north
+                {x: 0, y: 0, w: 20, h: 600}, //west
+                {x: 980, y: 200, w: 20, h: 600}, //east
+                {x: 0, y: 580, w: 1000, h: 20}, //south
+                {x: 200, y: 180, w: 800, h: 20, moveX: {xMin: 0, xMax: 200, dir: -1}},
+                {x: 0, y: 380, w: 800, h: 20, moveX: {xMin: 0, xMax: 200, dir: 1}}
+                
+            ],
+        ship: {x: 60, y: 440}
+    },
+    {
+        walls:
+            [
+                {x: 0, y: 0, w: 1000, h: 20}, //north
+                {x: 0, y: 0, w: 20, h: 600}, //west
+                {x: 980, y: 200, w: 20, h: 600}, //east
+                {x: 0, y: 580, w: 1000, h: 20}, //south
                 {x: 250, y: 200, w: 20, h: 400},
                 {x: 500, y: 0, w: 20, h: 400},
                 {x: 500, y: 400, w:300, h:20, moveX: {xMin: 500, xMax: 680, dir: 1}},
