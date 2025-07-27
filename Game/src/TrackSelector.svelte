@@ -3,9 +3,9 @@
     import { tracks } from "./Tracks"
     import { createEventDispatcher } from "svelte"
 
-    const trackRatio = 0.2
-    const canvasWidth=200
-    const canvasHeight=120
+    const trackScale = 0.2
+    const canvasWidth = 200
+    const canvasHeight = 120
     const wallSpeed = 0.25
     const drawTime = 20
 
@@ -97,10 +97,10 @@
                         <!-- walls -->
                         {#each track.walls as wall}
                             <rect 
-                                x={trackRatio * wall.x} 
-                                y={trackRatio * wall.y} 
-                                width={trackRatio * wall.w} 
-                                height={trackRatio * wall.h} 
+                                x={trackScale * wall.x} 
+                                y={trackScale * wall.y} 
+                                width={trackScale * wall.w} 
+                                height={trackScale * wall.h} 
                                 fill={"hsl(" + 365 * (index / tracksCopy.length) + ", 100%, 50%)"} 
                             />    
                         {/each}

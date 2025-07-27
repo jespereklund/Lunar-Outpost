@@ -52,7 +52,7 @@
 	{:else if gameState === "success"}
 		<div class="text">Du klarede det!
 			<br><br>
-			<button on:click={nextTrack}  class="big-btn">Næste bane</button>
+			<button on:click={nextTrack} class="big-btn">Næste bane</button>
 		</div>
 	{/if}
 </main>
