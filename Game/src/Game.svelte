@@ -15,8 +15,14 @@
     const drawTime = 20
     const acc = 0.05
     const wallSpeed = 0.25
+    const blinkOffset = 6
+    const blinkRadius = 4
     
     let drawTimer
+    let blinkerOnTimer
+    let blinkerOffTimer
+    let blink = false
+
     let svg
     let ship = {
         x: 0, 
@@ -38,9 +44,20 @@
         ship.x = currentTrack.ship.x
         ship.y = currentTrack.ship.y
         drawTimer = setInterval(nextFrame, drawTime)
+        blinkerOffTimerFunc()
         document.onkeydown = keyDownHandler
         document.onkeyup = keyUpHandler
     })
+
+    function blinkerOnTimerFunc() {
+        blinkerOnTimer = setTimeout(blinkerOffTimerFunc, 70)
+        blink = true
+    }
+
+    function blinkerOffTimerFunc() {
+        blinkerOffTimer = setTimeout(blinkerOnTimerFunc, 1000)
+        blink = false
+    }
 
     //calculate movements of the ship and walls and test for collisions
     function nextFrame() {
@@ -155,6 +172,22 @@
 
         <!-- ship -->
         <rect class="ship" x={ship.x + 5} y={ship.y + 5} width={shipSize - 10} height={shipSize - 10} />
+
+        <!-- ship blinkers -->
+        <circle cx={ship.x + blinkOffset} cy={ship.y + blinkOffset} r={blinkRadius} 
+            visibility={(blink === true ) ? "visible" : "hidden"} fill="yellow" stroke="black" stroke-width="1" />
+        <circle cx={ship.x + shipSize - blinkOffset} cy={ship.y + blinkOffset} r={blinkRadius} 
+            visibility={(blink === true ) ? "visible" : "hidden"}  fill="yellow" stroke="black" stroke-width="1" />
+        <circle cx={ship.x + shipSize -  blinkOffset} cy={ship.y + shipSize -  blinkOffset} r={blinkRadius} 
+            visibility={(blink === true ) ? "visible" : "hidden"}  fill="yellow" stroke="black" stroke-width="1" />
+        <circle cx={ship.x + blinkOffset} cy={ship.y + shipSize -  blinkOffset} r={blinkRadius} 
+            visibility={(blink === true ) ? "visible" : "hidden"}  fill="yellow" stroke="black" stroke-width="1" />
+        
+        <!-- window -->
+        <circle cx={ship.x + (shipSize / 2)} cy={ship.y + (shipSize / 2)} r="20" stroke="orange" stroke-width="6" fill="none" />
+
+        <!-- pilot -->
+         <image x={ship.x + 30} y={ship.y + 30} href="/pilot.png" height="40" width="40" />
 
         <!-- buttom flame -->
         <polygon points="

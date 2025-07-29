@@ -1,4 +1,5 @@
 <script>
+  import { onMount } from "svelte"
   import Game from "./Game.svelte"
   import { tracks } from "./Tracks"
   import TrackSelector from "./TrackSelector.svelte"
@@ -7,12 +8,30 @@
   let gameState = "start"
   let trackNr = 0
 
+  onMount(async () => {
+	document.onkeydown = onkeydownHandler
+  })
+
+  function onkeydownHandler(e) {
+	if (e.keyCode === 13) {
+		if (gameState === "failed") {
+			sameTrack()
+		}
+
+		if (gameState === "success") {
+			nextTrack()
+		}
+	}
+  }
+
   function success() {
 	gameState = "success"
+	document.onkeydown = onkeydownHandler
   }
 
   function failed() {
 	gameState = "failed"
+	document.onkeydown = onkeydownHandler
   }
 
   function nextTrack() {
