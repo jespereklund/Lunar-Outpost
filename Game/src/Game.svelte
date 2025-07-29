@@ -17,6 +17,9 @@
     const wallSpeed = 0.25
     const blinkOffset = 6
     const blinkRadius = 4
+    const blinkRadiusCorona = 20
+    const blinkerColonaOpacity = 0.2
+    const blinkerColor = "red"
     
     let drawTimer
     let blinkerOnTimer
@@ -175,13 +178,23 @@
 
         <!-- ship blinkers -->
         <circle cx={ship.x + blinkOffset} cy={ship.y + blinkOffset} r={blinkRadius} 
-            visibility={(blink === true ) ? "visible" : "hidden"} fill="yellow" stroke="black" stroke-width="1" />
+            visibility={(blink === true ) ? "visible" : "hidden"} fill={blinkerColor} stroke="black" stroke-width="1" />
         <circle cx={ship.x + shipSize - blinkOffset} cy={ship.y + blinkOffset} r={blinkRadius} 
-            visibility={(blink === true ) ? "visible" : "hidden"}  fill="yellow" stroke="black" stroke-width="1" />
+            visibility={(blink === true ) ? "visible" : "hidden"}  fill={blinkerColor} stroke="black" stroke-width="1" />
         <circle cx={ship.x + shipSize -  blinkOffset} cy={ship.y + shipSize -  blinkOffset} r={blinkRadius} 
-            visibility={(blink === true ) ? "visible" : "hidden"}  fill="yellow" stroke="black" stroke-width="1" />
+            visibility={(blink === true ) ? "visible" : "hidden"}  fill={blinkerColor} stroke="black" stroke-width="1" />
         <circle cx={ship.x + blinkOffset} cy={ship.y + shipSize -  blinkOffset} r={blinkRadius} 
-            visibility={(blink === true ) ? "visible" : "hidden"}  fill="yellow" stroke="black" stroke-width="1" />
+            visibility={(blink === true ) ? "visible" : "hidden"}  fill={blinkerColor} stroke="black" stroke-width="1" />
+
+        <!-- blinkers corona -->
+        <circle cx={ship.x + blinkOffset} cy={ship.y + blinkOffset} r={blinkRadiusCorona} 
+            opacity={blinkerColonaOpacity} visibility={(blink === true ) ? "visible" : "hidden"} fill={blinkerColor} stroke="black" stroke-width="1" />
+        <circle cx={ship.x + shipSize - blinkOffset} cy={ship.y + blinkOffset} r={blinkRadiusCorona} 
+            opacity={blinkerColonaOpacity} visibility={(blink === true ) ? "visible" : "hidden"}  fill={blinkerColor} stroke="black" stroke-width="1" />
+        <circle cx={ship.x + shipSize -  blinkOffset} cy={ship.y + shipSize -  blinkOffset} r={blinkRadiusCorona} 
+            opacity={blinkerColonaOpacity} visibility={(blink === true ) ? "visible" : "hidden"}  fill={blinkerColor} stroke="black" stroke-width="1" />
+        <circle cx={ship.x + blinkOffset} cy={ship.y + shipSize -  blinkOffset} r={blinkRadiusCorona} 
+            opacity={blinkerColonaOpacity} visibility={(blink === true ) ? "visible" : "hidden"}  fill={blinkerColor} stroke="black" stroke-width="1" />            
         
         <!-- window -->
         <circle cx={ship.x + (shipSize / 2)} cy={ship.y + (shipSize / 2)} r="20" stroke="orange" stroke-width="6" fill="none" />

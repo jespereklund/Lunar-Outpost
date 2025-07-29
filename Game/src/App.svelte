@@ -67,11 +67,15 @@
 		<div class="text">Du døde!
 			<br><br>
 			<button on:click={sameTrack} class="big-btn">Prøv igen</button>
+			<br><br>
+			<div class="text">(press Enter)</div>
 		</div>
 	{:else if gameState === "success"}
 		<div class="text">Du klarede det!
 			<br><br>
 			<button on:click={nextTrack} class="big-btn">Næste bane</button>
+			<br><br>
+			<div class="text">(press Enter)</div>
 		</div>
 	{/if}
 </main>
