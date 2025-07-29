@@ -157,5 +157,16 @@ export const tracks =
                 {x: 820, y: 360, w: 20, h: 100}
             ],
         ship: {x: 445, y: 186}
-    }
+    },
+    {
+        name: "Udgang",
+        walls:
+            [
+                {x: 0, y: 0, w: 1000, h: 20}, //north
+                {x: 0, y: 0, w: 20, h: 600}, //west
+                {x: 980, y: 200, w: 20, h: 600}, //east
+                {x: 0, y: 580, w: 1000, h: 20} //south
+            ],
+        ship: {x: 80, y: 420}
+    },
 ]
