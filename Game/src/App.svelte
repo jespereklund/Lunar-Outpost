@@ -68,14 +68,14 @@
 			<br><br>
 			<button on:click={sameTrack} class="big-btn">Prøv igen</button>
 			<br><br>
-			<div class="text">(press Enter)</div>
+			<div class="text">(tryk Enter)</div>
 		</div>
 	{:else if gameState === "success"}
 		<div class="text">Du klarede det!
 			<br><br>
 			<button on:click={nextTrack} class="big-btn">Næste bane</button>
 			<br><br>
-			<div class="text">(press Enter)</div>
+			<div class="text">(tryk Enter)</div>
 		</div>
 	{/if}
 </main>

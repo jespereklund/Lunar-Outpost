@@ -77,12 +77,14 @@
 <main>
     <div class="select-div">
         <p class="text">Her kan du vælge bane</p>
-        <br><br>
+        <br>
         <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 30px 15px;">
 
         {#each tracksCopy as track, index}
             <button style="background-color: transparent; border: none; cursor: pointer;" on:click={e => {selectTrack(index)}}>
                 <div style="width: {canvasWidth}px; height: {canvasHeight}px;">
+                    <p class="text-small">{track.name}</p>
+
                     <svg width={canvasWidth} height={canvasHeight}>
 
                         <!-- background -->
@@ -122,6 +124,15 @@
 		margin: 0;
 		text-align: center;
 	}
+
+	.text-small {
+		font-family: 'Courier New', Courier, monospace;
+		font-size: 16px;
+		font-weight: bolder;
+		color: #009900;
+		margin: 0;
+		text-align: center;
+	}    
 
 	.select-div {
 		width: 1000px; 

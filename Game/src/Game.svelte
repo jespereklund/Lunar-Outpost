@@ -53,7 +53,7 @@
     })
 
     function blinkerOnTimerFunc() {
-        blinkerOnTimer = setTimeout(blinkerOffTimerFunc, 70)
+        blinkerOnTimer = setTimeout(blinkerOffTimerFunc, 100)
         blink = true
     }
 
@@ -159,7 +159,7 @@
     
 </script>
 <main>
-    <div style="color: hsl({wallHue} 100% 50%);" class="top-text">Bane {currentTrackNr + 1}</div>
+    <div style="color: #00ff00;" class="top-text">{currentTrack.name}</div>
     <svg
         width={canvasWidth}
         height={canvasHeight}
@@ -188,13 +188,13 @@
 
         <!-- blinkers corona -->
         <circle cx={ship.x + blinkOffset} cy={ship.y + blinkOffset} r={blinkRadiusCorona} 
-            opacity={blinkerColonaOpacity} visibility={(blink === true ) ? "visible" : "hidden"} fill={blinkerColor} stroke="black" stroke-width="1" />
+            opacity={blinkerColonaOpacity} visibility={(blink === true ) ? "visible" : "hidden"} fill={blinkerColor} />
         <circle cx={ship.x + shipSize - blinkOffset} cy={ship.y + blinkOffset} r={blinkRadiusCorona} 
-            opacity={blinkerColonaOpacity} visibility={(blink === true ) ? "visible" : "hidden"}  fill={blinkerColor} stroke="black" stroke-width="1" />
+            opacity={blinkerColonaOpacity} visibility={(blink === true ) ? "visible" : "hidden"}  fill={blinkerColor} />
         <circle cx={ship.x + shipSize -  blinkOffset} cy={ship.y + shipSize -  blinkOffset} r={blinkRadiusCorona} 
-            opacity={blinkerColonaOpacity} visibility={(blink === true ) ? "visible" : "hidden"}  fill={blinkerColor} stroke="black" stroke-width="1" />
+            opacity={blinkerColonaOpacity} visibility={(blink === true ) ? "visible" : "hidden"}  fill={blinkerColor}  />
         <circle cx={ship.x + blinkOffset} cy={ship.y + shipSize -  blinkOffset} r={blinkRadiusCorona} 
-            opacity={blinkerColonaOpacity} visibility={(blink === true ) ? "visible" : "hidden"}  fill={blinkerColor} stroke="black" stroke-width="1" />            
+            opacity={blinkerColonaOpacity} visibility={(blink === true ) ? "visible" : "hidden"}  fill={blinkerColor}  />            
         
         <!-- window -->
         <circle cx={ship.x + (shipSize / 2)} cy={ship.y + (shipSize / 2)} r="20" stroke="orange" stroke-width="6" fill="none" />

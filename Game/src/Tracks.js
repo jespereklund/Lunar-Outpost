@@ -1,6 +1,7 @@
 export const tracks = 
 [
     {
+        name: "Vareindlevering",
         walls:
             [
                 {x: 0, y: 0, w: 1000, h: 20}, //north
@@ -11,6 +12,7 @@ export const tracks =
         ship: {x: 80, y: 420}
     },
     {
+        name: "Lager",
         walls:
             [
                 {x: 0, y: 0, w: 1000, h: 20}, //north
@@ -22,6 +24,7 @@ export const tracks =
         ship: {x: 80, y: 420}
     },
     {
+        name: "Motorrum",
         walls:
             [
                 {x: 0, y: 0, w: 1000, h: 20}, //north
@@ -33,6 +36,7 @@ export const tracks =
         ship: {x: 80, y: 420}
     },
     {
+        name: "Kontrolrum",
         walls:
             [
                 {x: 0, y: 0, w: 1000, h: 20}, //north
@@ -44,6 +48,7 @@ export const tracks =
         ship: {x: 80, y: 420}
     },
     {
+        name: "Værksted",
         walls:
             [
                 {x: 0, y: 0, w: 1000, h: 20}, //north
@@ -57,6 +62,7 @@ export const tracks =
         ship: {x: 80, y: 420}
     },
     {
+        name: "Kantine",
         walls:
             [
                 {x: 0, y: 0, w: 1000, h: 20}, //north
@@ -71,6 +77,7 @@ export const tracks =
         ship: {x: 80, y: 420}
     },    
     {
+        name: "Træningscenter",
         walls:
             [
                 {x: 0, y: 0, w: 1000, h: 20}, //north
@@ -84,6 +91,7 @@ export const tracks =
         ship: {x: 60, y: 440}
     },
     {
+        name: "Kølerum",
         walls:
             [
                 {x: 0, y: 0, w: 1000, h: 20}, //north
@@ -98,6 +106,7 @@ export const tracks =
         ship: {x: 80, y: 420}
     },
     {
+        name: "Opholdsstue",
         walls:
             [
                 {x: 0, y: 0, w: 1000, h: 20}, //north
@@ -112,6 +121,25 @@ export const tracks =
         ship: {x: 25, y: 475}
     },
     {
+        name: "Depot",
+        walls:
+            [
+                {x: 0, y: 0, w: 1000, h: 20}, //north
+                {x: 0, y: 0, w: 20, h: 600}, //west
+                {x: 980, y: 0, w: 20, h: 600}, //east
+                {x: 0, y: 580, w: 850, h: 20}, //south
+                {x: 380, y: 280, w: 320, h: 20},
+                {x: 700, y: 280, w: 20, h: 170},
+                {x: 200, y: 430, w: 520, h: 20},
+                {x: 200, y: 170, w: 20, h: 270},
+                {x: 200, y: 150, w: 670, h: 20},
+                {x: 850, y: 170, w: 20, h: 570},
+
+            ],
+        ship: {x: 580, y: 320}
+    },
+    {
+        name: "Raffinaderi",
         walls:
             [
                 {x: 0, y: 0, w: 1000, h: 20}, //north
