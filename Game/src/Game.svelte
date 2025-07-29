@@ -200,7 +200,7 @@
         <circle cx={ship.x + (shipSize / 2)} cy={ship.y + (shipSize / 2)} r="20" stroke="orange" stroke-width="6" fill="none" />
 
         <!-- pilot -->
-         <image x={ship.x + 30} y={ship.y + 30} href="/pilot.png" height="40" width="40" />
+         <image x={ship.x + 30} y={ship.y + 30} href="./pilot.png" height="40" width="40" />
 
         <!-- buttom flame -->
         <polygon points="
