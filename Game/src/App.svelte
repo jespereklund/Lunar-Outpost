@@ -42,6 +42,7 @@
 	}
   }
 
+  
   function success() {
 	gameState = "success"
 	document.onkeydown = onkeydownHandler
