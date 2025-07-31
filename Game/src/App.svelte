@@ -20,14 +20,19 @@
   ]
 
   const numOfTracks = tracks.length
-  let gameState = "start"
+  let gameState = ""
   let trackNr = 0
   let selectedPilotIndex = 0
   let selectedPilot = {}
 
   onMount(async () => {
-	selectedPilot = pilots[0]
+	if (localStorage.getItem("pilotIndex") === null) {
+		localStorage.setItem("pilotIndex", "0")
+	}
+	selectedPilotIndex = parseInt(localStorage.getItem("pilotIndex"))
+	selectedPilot = pilots[selectedPilotIndex]
 	document.onkeydown = onkeydownHandler
+	gameState = "start"
   })
 
   function onkeydownHandler(e) {
@@ -42,7 +47,6 @@
 	}
   }
 
-  
   function success() {
 	gameState = "success"
 	document.onkeydown = onkeydownHandler
@@ -70,6 +74,7 @@
   function selectPilot(i) {
 	selectedPilotIndex = i
 	selectedPilot = pilots[i]
+	localStorage.setItem("pilotIndex", selectedPilotIndex.toString())
   }
 
 </script>
@@ -88,7 +93,7 @@
 			<br>
 			<div style="display: flex; width: 230px; gap: 20px;">
 				{#each pilots as pilot, i}
-					<p class="text" style="border: 3px solid {selectedPilotIndex === i ? '#00ff00' : "#006600"} ;">
+					<p class="text" style="border: 3px solid {selectedPilotIndex === i ? '#00ff00' : "#006600"}; height: 114px;">
 						<!-- svelte-ignore a11y_consider_explicit_label -->
 						<span style="font-size: 16px;">{pilot.name}</span>
 						<button on:click={e => selectPilot(i)} style="background-color: {pilot.backgroundColor}; cursor: pointer;">
