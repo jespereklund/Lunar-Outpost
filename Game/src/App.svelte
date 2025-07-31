@@ -4,11 +4,29 @@
   import { tracks } from "./Tracks"
   import TrackSelector from "./TrackSelector.svelte"
 
+  const pilots = [
+	{
+		name: "Jørgen",
+		image: "male.png",
+		backgroundColor: "#000066",
+		strokeColor: "#0000ff"
+	},
+	{
+		name: "Ulla",
+		image: "female.png",
+		backgroundColor: "#660000",
+		strokeColor: "#ff0000"
+	}	
+  ]
+
   const numOfTracks = tracks.length
   let gameState = "start"
   let trackNr = 0
+  let selectedPilotIndex = 0
+  let selectedPilot = {}
 
   onMount(async () => {
+	selectedPilot = pilots[0]
 	document.onkeydown = onkeydownHandler
   })
 
@@ -48,21 +66,42 @@
 	gameState = "game"
   }
 
+  function selectPilot(i) {
+	selectedPilotIndex = i
+	selectedPilot = pilots[i]
+  }
+
 </script>
 <main>
 {#if gameState === "start"}
 		<div class="start-div">
-			<p class="text">Du skal styre det lille blå rumskib ud af labyrinten. Rører du væggene undervejs, dør du!
+			<p class="text">Du skal styre det lille rumskib ud af labyrinten. Rører du væggene undervejs, dør du!
 				<br><br>Brug piletasterne eller WASD til at styre rumskibet.</p>
 			<br><br>
-			<p class="text"><button class="big-btn" on:click={(e) => gameState = "game"}>Start spil</button></p>
+			<div style="display: flex; width: 600px;">
+				<p class="text"><button class="big-btn" on:click={(e) => gameState = "game"}>Start spil</button></p>			
+				<p class="text"><button class="big-btn" on:click={(e) => gameState = "select"}>Vælg bane</button></p>
+			</div>
 			<br><br>
-			<p class="text"><button class="big-btn" on:click={(e) => gameState = "select"}>Vælg bane</button></p>
+			<p class="text">Vælg pilot:</p>
+			<br>
+			<div style="display: flex; width: 230px; gap: 20px;">
+				{#each pilots as pilot, i}
+					<p class="text" style="border: 3px solid {selectedPilotIndex === i ? '#00ff00' : "#006600"} ;">
+						<!-- svelte-ignore a11y_consider_explicit_label -->
+						<span style="font-size: 16px;">{pilot.name}</span>
+						<button on:click={e => selectPilot(i)} style="background-color: {pilot.backgroundColor}; cursor: pointer;">
+							<!-- svelte-ignore a11y_missing_attribute -->
+							<img width="60" src={"./" + pilot.image} />
+						</button>
+					</p>
+				{/each}
+			</div>
 		</div>
 	{:else if gameState === "select" }	
 		<TrackSelector on:select={selectTrack} />
 	{:else if gameState === "game" }
-		<Game currentTrackNr = {trackNr} {numOfTracks} on:success={success} on:failed={failed}></Game>
+		<Game currentTrackNr = {trackNr} {numOfTracks} {selectedPilot} on:success={success} on:failed={failed}></Game>
 	{:else if gameState === "failed"}
 		<div class="text">Du døde!
 			<br><br>
@@ -85,7 +124,7 @@
 		width: 230px;
 		height: 70px;
 		font-family: 'Courier New', Courier, monospace;
-		font-size: 30px;
+		font-size: 26px;
 		font-weight: bolder;
 		color: #00ff00;
 		background: #004400;
@@ -96,7 +135,7 @@
 	.text {
 		width: 900px;
 		font-family: 'Courier New', Courier, monospace;
-		font-size: 40px;
+		font-size: 30px;
 		font-weight: bolder;
 		color: #009900;
 		margin: 0;

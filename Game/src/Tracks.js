@@ -45,7 +45,7 @@ export const tracks =
                 {x: 0, y: 580, w: 1000, h: 20}, //south
                 {x: 500, y: 0, w: 20, h: 400}
             ],
-        ship: {x: 80, y: 420}
+        ship: {x: 80, y: 80}
     },
     {
         name: "Værksted",

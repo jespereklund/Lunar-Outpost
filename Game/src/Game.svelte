@@ -6,6 +6,8 @@
 
     export let currentTrackNr = 0
     export let numOfTracks = 0
+    export let selectedPilot
+
     let wallColor 
 
     let canvasWidth = 1000
@@ -19,7 +21,7 @@
     const blinkRadius = 4
     const blinkRadiusCorona = 20
     const blinkerColonaOpacity = 0.2
-    const blinkerColor = "red"
+    const blinkerColor = "#ff9999"
     
     let drawTimer
     let blinkerOnTimer
@@ -174,7 +176,8 @@
          {/each}
 
         <!-- ship -->
-        <rect class="ship" x={ship.x + 5} y={ship.y + 5} width={shipSize - 10} height={shipSize - 10} />
+        <rect class="ship" fill={selectedPilot.backgroundColor} stroke={selectedPilot.strokeColor} 
+            x={ship.x + 5} y={ship.y + 5} width={shipSize - 10} height={shipSize - 10} />
 
         <!-- ship blinkers -->
         <circle cx={ship.x + blinkOffset} cy={ship.y + blinkOffset} r={blinkRadius} 
@@ -197,10 +200,10 @@
             opacity={blinkerColonaOpacity} visibility={(blink === true ) ? "visible" : "hidden"}  fill={blinkerColor}  />            
         
         <!-- window -->
-        <circle cx={ship.x + (shipSize / 2)} cy={ship.y + (shipSize / 2)} r="20" stroke="orange" stroke-width="6" fill="none" />
+        <circle cx={ship.x + (shipSize / 2)} cy={ship.y + (shipSize / 2)} r="20" stroke={selectedPilot.strokeColor} stroke-width="6" fill="none" />
 
         <!-- pilot -->
-         <image x={ship.x + 30} y={ship.y + 30} href="./pilot.png" height="40" width="40" />
+         <image x={ship.x + 30} y={ship.y + 30} href={"./" + selectedPilot.image} height="40" width="40" />
 
         <!-- buttom flame -->
         <polygon points="
@@ -241,9 +244,7 @@
         fill: #003300; 
     }
     .ship {
-        stroke: #006699; 
         stroke-width: 5; 
-        fill: #000066;
     }
     .flame {
         fill: #ff6600;
