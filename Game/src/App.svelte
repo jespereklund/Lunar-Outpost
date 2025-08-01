@@ -79,7 +79,7 @@
 
 </script>
 <main>
-{#if gameState === "start"}
+	{#if gameState === "start"}
 		<div class="start-div">
 			<p class="text">Du skal styre det lille rumskib ud af labyrinten. Rører du væggene undervejs, dør du!
 				<br><br>Brug piletasterne eller WASD til at styre rumskibet.</p>
@@ -112,15 +112,19 @@
 		<div class="text">Du døde!
 			<br><br>
 			<button on:click={sameTrack} class="big-btn">Prøv igen</button>
-			<br><br>
+			<br>
 			<div class="text">(tryk Enter)</div>
+			<br>
+			<p class="text"><button class="big-btn" on:click={(e) => gameState = "select"}>Vælg bane</button></p>
 		</div>
 	{:else if gameState === "success"}
 		<div class="text">Du klarede det!
 			<br><br>
 			<button on:click={nextTrack} class="big-btn">Næste bane</button>
-			<br><br>
+			<br>
 			<div class="text">(tryk Enter)</div>
+			<br>
+			<p class="text"><button class="big-btn" on:click={(e) => gameState = "select"}>Vælg bane</button></p>
 		</div>
 	{/if}
 </main>
